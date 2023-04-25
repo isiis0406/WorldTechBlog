@@ -5,11 +5,12 @@
 /.pnp
 .pnp.js
 */node_modules
+/src/assets
+
 
 
 # testing
 /coverage
-
 # production
 /build
 
