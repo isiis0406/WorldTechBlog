@@ -1,14 +1,33 @@
 import { React, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import { FaBars } from 'react-icons/fa';
 import styled from 'styled-components';
 import Logo from './Logo';
+import { useNavigate } from 'react-router-dom';
+import { useLogout } from '../hooks/useLogout';
+import { useAuthContext } from '../hooks/useAuthContext';
+
 
 function Navbar() {
+  //Responsive Navbar action
   const [isMobile, setIsMobile] = useState(false);
   const handleClick = () => {
     setIsMobile(false);
+  }
+
+  //Logout features
+  const { logout } = useLogout();
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
+
+
+  const handleLogout = () => {
+    // setCookies('acces_token', "");
+    // window.localStorage.removeItem("userID");
+    logout();
+    navigate('/auth/login');
+
   }
   return (
     <Nav>
@@ -18,7 +37,21 @@ function Navbar() {
       >
         <NavLink to="/" onClick={handleClick} >Acceuil</NavLink>
         <NavLink to="/add-post" onClick={handleClick}>Publier</NavLink>
-        <NavLink to="/account" onClick={handleClick}>Mon compte</NavLink>
+
+      {user &&
+        (
+          <div>
+            <Link  to="/auth/login" onClick={handleLogout}>Logout</Link>
+          </div>
+        )
+      }
+      {!user &&
+        (
+          <div>
+            <NavLink to="/auth/login" onClick={handleClick} >Login</NavLink>
+          </div>
+        )
+      }
       </div>
       <div
         className="nav-mobile-icons"

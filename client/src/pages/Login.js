@@ -3,30 +3,48 @@ import styled from 'styled-components';
 import Button from '../components/Button';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useLogin } from '../hooks/useLogin';
+
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login, error, isLoading } = useLogin();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login(email, password);
+
+  }
   return (
     <Wrapper>
       <h2>
         Connexion
       </h2>
-      <form className='form'>
-        <input 
-        type="text" 
-        placeholder='E-mail' 
-        value={email}
-        onChange={(e) => {setEmail(e.target.value)}}
+      <form
+        className='form'
+        onSubmit={handleSubmit}
+      >
+        <input
+          type="text"
+          placeholder='E-mail'
+          value={email}
+          onChange={(e) => { setEmail(e.target.value) }}
         />
-        <input 
-        type="password" 
-        placeholder='Mot de passe' 
-        value={password}
-        onChange={(e) => {setPassword(e.target.value)}}
+        <input
+          type="password"
+          placeholder='Mot de passe'
+          value={password}
+          onChange={(e) => { setPassword(e.target.value) }}
         />
+        {error && <Error className='error'>{error}</Error>}
+
         <div className="Btn" >
-        <Button type={'submit'} value="Me connecter"/>
+          <Button 
+          type={'submit'} 
+          value="Me connecter"
+          disabled={isLoading}
+          />
         </div>
         <div className='links'>
           <Link to='/auth/register'>Je n'ai pas encore de compte</Link>
@@ -93,4 +111,10 @@ const Wrapper = styled.div`
         margin-bottom: 0.4rem;
       }
     }
+`
+const Error = styled.p`
+    color: red;
+    font-weight: 500;
+    padding: 1rem;
+    text-align: center;
 `

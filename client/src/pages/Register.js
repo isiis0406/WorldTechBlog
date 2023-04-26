@@ -2,30 +2,47 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../components/Button';
 import { useState } from 'react';
+import { useRegister } from '../hooks/useRegister';
+
 
 function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const { register, isLoading, error } = useRegister();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await register(email, password);
+    
+  }
+
   return (
     <Wrapper>
       <h2>
         Inscription
       </h2>
-      <form className='form'>
-        <input 
-        type="text" 
-        placeholder='E-mail' 
-        value={email}
-        onChange={(e) => {setEmail(e.target.value)}}
+      <form className='form' onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder='E-mail'
+          value={email}
+          onChange={(e) => { setEmail(e.target.value) }}
         />
-        <input 
-        type="password" 
-        placeholder='Mot de passe' 
-        value={password}
-        onChange={(e) => {setPassword(e.target.value)}}
+        <input
+          type="password"
+          placeholder='Mot de passe'
+          value={password}
+          onChange={(e) => { setPassword(e.target.value) }}
         />
+        {error && <Error className='error'>{error}</Error>}
+
         <div className="Btn" >
-        <Button type={'submit'} value="M'inscrire"/>
+          <Button
+            type={'submit'}
+            value="M'inscrire"
+            disabled={isLoading}
+          />
         </div>
       </form>
     </Wrapper>
@@ -72,4 +89,10 @@ const Wrapper = styled.div`
       };
      
     }
+`
+const Error = styled.p`
+    color: red;
+    font-weight: 500;
+    padding: 1rem;
+    text-align: center;
 `
