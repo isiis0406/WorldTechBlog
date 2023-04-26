@@ -44,4 +44,67 @@ const Post = styled.div`
     font-size: 1.2rem;
     color: #454242;
   }
+  @media screen and (max-width: 1200px) {
+    padding: 4rem;
+    .cover{
+      width: 50%;
+    }
+    .abstract{
+      width: 50%;
+      padding: 1rem;
+    }
+    img{
+      /* max-width: 140%; */
+    }
+    h3{
+      font-size: 2rem;
+      padding: 1rem;
+    }
+    p{
+      font-size: 1.4rem;
+      padding: 1rem;
+    }
+  }
+  @media screen and (max-width: 1060px) {
+    padding: 4rem;
+    .cover{
+      width: 50%;
+    }
+    .abstract{
+      width: 50%;
+      padding: 1rem;
+    }
+    img{
+      /* max-width: 140%; */
+    }
+    h3{
+      font-size: 1.8rem;
+      padding: 1rem;
+    }
+    p{
+      font-size: 1.2rem;
+      padding: 1rem;
+    }
+  }
+  @media screen and (max-width: 970px) {
+    flex-direction: column;
+    padding: 0rem;
+    .cover{
+      width: 50%;
+    }
+    .abstract{
+      width: 50%;
+    }
+    img{
+      /* max-width: 140%; */
+    }
+    h3{
+      font-size: 1rem;
+      padding: 0.6rem;
+    }
+    p{
+      font-size: 1rem;
+      padding: 1rem;
+    }
+  }
 `

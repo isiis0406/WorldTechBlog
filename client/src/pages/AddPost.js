@@ -11,7 +11,7 @@ function AddPost() {
   const [cover, setCover] = useState('');
   const [value, setValue] = useState('');
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = (e) => {
     e.preventDefault();
     //
   }
@@ -19,71 +19,71 @@ function AddPost() {
     <Wrapper>
       <h2>Nouveau post</h2>
       <Form onSubmit={handleSubmit}>
-        <input 
-        type="text" 
-        placeholder='Titre...' 
-        className='title' 
-        value={title} 
-        onChange={(e)=> {setTitle(e.target.value)}}
+        <input
+          type="text"
+          placeholder='Titre...'
+          className='title'
+          value={title}
+          onChange={(e) => { setTitle(e.target.value) }}
         />
 
         <h3>Catégorie : </h3>
         <div className='categories'>
           <div>
 
-            <input 
-            type="radio" 
-            name="category" 
-            value="Développement"
-            defaultChecked 
-            onChange={(e)=> {setCategory(e.target.value)}}
+            <input
+              type="radio"
+              name="category"
+              value="Développement"
+              defaultChecked
+              onChange={(e) => { setCategory(e.target.value) }}
             />
             <label htmlFor="huey">Développement</label>
           </div>
           <div>
-            <input 
-            type="radio" 
-            name="category" 
-            value="Design" 
-            onChange={(e)=> {setCategory(e.target.value)}}
+            <input
+              type="radio"
+              name="category"
+              value="Design"
+              onChange={(e) => { setCategory(e.target.value) }}
             />
             <label htmlFor="huey">Design</label>
           </div>
           <div>
-            <input 
-            type="radio" 
-            name="category" 
-            value="Astuces" 
-            onChange={(e)=> {setCategory(e.target.value)}}
+            <input
+              type="radio"
+              name="category"
+              value="Astuces"
+              onChange={(e) => { setCategory(e.target.value) }}
             />
             <label htmlFor="huey">Astuces</label>
           </div>
           <div>
-            <input 
-            type="radio" 
-            name="category" 
-            value="Librairie" 
-            onChange={(e)=> {setCategory(e.target.value)}}
+            <input
+              type="radio"
+              name="category"
+              value="Librairie"
+              onChange={(e) => { setCategory(e.target.value) }}
             />
             <label htmlFor="huey">Librairie</label>
           </div>
         </div>
         <div className="cover">
           <h3>Couverture :</h3>
-          <input 
-          className='coverFileInput' 
-          type="file" 
+          <input
+            className='coverFileInput'
+            type="file"
           />
         </div>
 
-        <ReactQuill 
-        className='contentArea' 
-        theme="snow" 
-        value={value} 
-        onChange={setValue} 
+        <ReactQuill
+          className='contentArea'
+          theme="snow"
+          value={value}
+          onChange={setValue}
         />
         <div className="BtnContainer">
-        <Button  type={'submit'} value='Publier' />
+          <Button type={'submit'} value='Publier' />
 
         </div>
       </Form>
@@ -99,11 +99,48 @@ padding: 1rem;
     font-size: 3rem;
     padding: 2rem 1rem;
     font-weight: 300;
-    
+    }
+@media (max-width: 936px){
+  h2{
+    font-size: 2.4rem;
+  }
+  Form{
+    margin: 3rem;
+    .title{
+    font-size: 3rem;
+  }
+    h3{
+      font-size: 1.4rem;
+    }
+    .categories{
+      font-size: 1rem;
+    }
+  }
+
+}
+@media (max-width: 629px){
+  h2{
+    font-size: 2.4rem;
+  }
+  Form{
+    margin: 3rem;
+    .title{
+    font-size: 2rem;
+  }
+    h3{
+      font-size: 1.4rem;
+    }
+    .categories{
+      font-size: 1rem;
+    }
+  }
+
 }
 `
 const Form = styled.form`
   margin: 2rem 15rem;
+  max-width: 100%;
+
   .title{
     font-size: 4rem;
     border: none;
@@ -138,4 +175,7 @@ const Form = styled.form`
     align-items: center;
     justify-content: center;
   }
+
+ 
+
 `

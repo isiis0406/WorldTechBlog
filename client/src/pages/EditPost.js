@@ -99,11 +99,48 @@ padding: 1rem;
     font-size: 3rem;
     padding: 2rem 1rem;
     font-weight: 300;
-    
+    }
+@media (max-width: 936px){
+  h2{
+    font-size: 2.4rem;
+  }
+  Form{
+    margin: 3rem;
+    .title{
+    font-size: 3rem;
+  }
+    h3{
+      font-size: 1.4rem;
+    }
+    .categories{
+      font-size: 1rem;
+    }
+  }
+
+}
+@media (max-width: 629px){
+  h2{
+    font-size: 2.4rem;
+  }
+  Form{
+    margin: 3rem;
+    .title{
+    font-size: 2rem;
+  }
+    h3{
+      font-size: 1.4rem;
+    }
+    .categories{
+      font-size: 1rem;
+    }
+  }
+
 }
 `
 const Form = styled.form`
   margin: 2rem 15rem;
+  max-width: 100%;
+
   .title{
     font-size: 4rem;
     border: none;
@@ -138,4 +175,7 @@ const Form = styled.form`
     align-items: center;
     justify-content: center;
   }
+
+ 
+
 `

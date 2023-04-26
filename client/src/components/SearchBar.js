@@ -7,18 +7,18 @@ function SearchBar() {
   const [input, setInput] = useState();
 
   // eslint-disable-next-line no-unused-vars
-  const submitHandler= (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
     // navigate(`/searched/${input}`)
     // setInput("");
-    
-}
+
+  }
   return (
     <Search>
-        <div>
-          <FaSearch />
-          <input onChange={(e) => (setInput(e.target.value))} type="text" value={input} />
-        </div>
+      <div>
+        <FaSearch />
+        <input onChange={(e) => (setInput(e.target.value))} type="text" value={input} />
+      </div>
     </Search>
   )
 }
@@ -27,6 +27,17 @@ export default SearchBar
 const Search = styled.form`
 
 margin: 0 20rem;
+@media (max-width: 1200px) {
+        margin: 0 16rem;
+            }
+
+@media (max-width: 1068px) {
+        margin: 0 16rem;
+            }
+
+@media (max-width: 970px) {
+        margin: 0 6rem;
+            }
     div{
         width: 80%;
         position: relative;
@@ -43,6 +54,10 @@ margin: 0 20rem;
         outline: none;
          border-radius: 2rem;
          width: 100%;
+         @media (max-width: 740px) {
+        padding: 0.5rem 3rem;
+            
+         }
     }
     svg{
         position: absolute;

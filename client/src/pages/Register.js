@@ -62,4 +62,14 @@ const Wrapper = styled.div`
       justify-content: center;
       margin: 2rem;
     }
+    @media (max-width: 920px) {
+      h2{
+        font-size: 2rem;
+      }
+      input{
+        width: 50%;
+        font-size: 1rem;
+      };
+     
+    }
 `

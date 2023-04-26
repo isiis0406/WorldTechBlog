@@ -76,4 +76,21 @@ const Wrapper = styled.div`
         text-decoration: underline;
       }
     }
+    @media (max-width: 920px) {
+      h2{
+        font-size: 2rem;
+      }
+      input{
+        width: 50%;
+        font-size: 1rem;
+      };
+      .links{
+        flex-direction: column;
+        align-items: center;
+      }
+      .links  a{
+        font-size: 0.8rem;
+        margin-bottom: 0.4rem;
+      }
+    }
 `
