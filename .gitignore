@@ -8,6 +8,10 @@
 */node_modules
 /src/assets
 
+**/node_modules
+/client/.env
+/server/.env
+
 
 
 # testing
