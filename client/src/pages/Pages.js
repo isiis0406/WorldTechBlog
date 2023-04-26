@@ -28,7 +28,6 @@ function Pages() {
           path='/edit-post/:id'
           element={user ? <EditPost /> : <Navigate to="/auth/login" />}>
         </Route>
-        <Route path='/edit-post/:id' element={<EditPost />} />
         <Route path='/auth/register' element={<Register />} />
         <Route path='/auth/login' element={<Login />} />
       </Routes>

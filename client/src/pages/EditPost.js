@@ -4,6 +4,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Button from '../components/Button';
 
+
 function EditPost() {
 
   const [title, setTitle] = useState('');
@@ -11,11 +12,15 @@ function EditPost() {
   const [cover, setCover] = useState('');
   const [value, setValue] = useState('');
 
+
+
   const handleSubmit = (e) =>{
     e.preventDefault();
     //
   }
+
   return (
+    
     <Wrapper>
       <h2>Édition</h2>
       <Form onSubmit={handleSubmit}>

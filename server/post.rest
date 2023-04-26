@@ -1,0 +1,35 @@
+GET http://localhost:8000/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ4NzY4NzNkNjZhNzJjN2U5OTlmNTUiLCJpYXQiOjE2ODI1MDAyNTQsImV4cCI6MTY4Mjc1OTQ1NH0.p9kCOrELchdnXQkPrvS1mzVs1dyYN9Tg9CfTeSBTCAE
+###
+GET http://localhost:8000/posts/63f8eb8394b7e8a717abad07
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ4NzY4NzNkNjZhNzJjN2U5OTlmNTUiLCJpYXQiOjE2ODI1MDAyNTQsImV4cCI6MTY4Mjc1OTQ1NH0.p9kCOrELchdnXQkPrvS1mzVs1dyYN9Tg9CfTeSBTCAE
+
+###
+POST http://localhost:8000/posts/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ4NzY4NzNkNjZhNzJjN2U5OTlmNTUiLCJpYXQiOjE2ODI1MDAyNTQsImV4cCI6MTY4Mjc1OTQ1NH0.p9kCOrELchdnXQkPrvS1mzVs1dyYN9Tg9CfTeSBTCAE
+
+{
+    "title": "my third post",
+    "abstract": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate odit officia voluptatibus aspernatur cum porro ea sed laudantium aliquid nam!",
+    "author": "BALDE Issa Bobo",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum ab placeat id. Assumenda deleniti delectus a, et deserunt labore ipsum soluta beatae eos, ullam fuga voluptas libero dolorem eveniet. Voluptas quos repellat quia repudiandae hic, sed consequatur debitis sapiente esse voluptate quam qui ipsa harum dicta corporis totam, quis voluptatem"
+
+}
+
+###
+PATCH http://localhost:8000/posts/6448edb1f2b36c7f22af3bfa
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ4NzY4NzNkNjZhNzJjN2U5OTlmNTUiLCJpYXQiOjE2ODI1MDAyNTQsImV4cCI6MTY4Mjc1OTQ1NH0.p9kCOrELchdnXQkPrvS1mzVs1dyYN9Tg9CfTeSBTCAE
+
+{
+    "title": "my second updated post",
+    "abstract": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate odit officia voluptatibus aspernatur cum porro ea sed laudantium aliquid nam!",
+    "author": "SOW Marouane",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum ab placeat id. Assumenda deleniti delectus a, et deserunt labore ipsum soluta beatae eos, ullam fuga voluptas libero dolorem eveniet. Voluptas quos repellat quia repudiandae hic, sed consequatur debitis sapiente esse voluptate quam qui ipsa harum dicta corporis totam, quis voluptatem"
+
+}
+
+###
+DELETE http://localhost:8000/posts/6448edb1f2b36c7f22af3bfa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ4NzY4NzNkNjZhNzJjN2U5OTlmNTUiLCJpYXQiOjE2ODI1MDAyNTQsImV4cCI6MTY4Mjc1OTQ1NH0.p9kCOrELchdnXQkPrvS1mzVs1dyYN9Tg9CfTeSBTCAE

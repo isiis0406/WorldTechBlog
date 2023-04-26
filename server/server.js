@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv, { config } from 'dotenv';
 import dbConnect from "./database/db.js";
 import { authRouter } from "./routes/AuthRoute.js";
-import { postRouter } from "./routes/postRoute.js";
+import { postRouter } from "./routes/postRouter.js";
 
 import requireAuth from "./middleware/requireAuth.js";
 
@@ -19,6 +19,6 @@ app.use('/auth', authRouter);
 
 app.use(requireAuth);
 
-app.use('/posts', postRouter);
+app.use('/', postRouter);
 
 app.listen(process.env.PORT, () => { console.log(`Server listening on port ${process.env.PORT}`);});
