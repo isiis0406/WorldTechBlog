@@ -1,8 +1,6 @@
 GET http://localhost:8000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ4NzY4NzNkNjZhNzJjN2U5OTlmNTUiLCJpYXQiOjE2ODI1MDAyNTQsImV4cCI6MTY4Mjc1OTQ1NH0.p9kCOrELchdnXQkPrvS1mzVs1dyYN9Tg9CfTeSBTCAE
 ###
-GET http://localhost:8000/posts/63f8eb8394b7e8a717abad07
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ4NzY4NzNkNjZhNzJjN2U5OTlmNTUiLCJpYXQiOjE2ODI1MDAyNTQsImV4cCI6MTY4Mjc1OTQ1NH0.p9kCOrELchdnXQkPrvS1mzVs1dyYN9Tg9CfTeSBTCAE
+GET http://localhost:8000/posts/64492d326f9f40c1c3ca6896
 
 ###
 POST http://localhost:8000/posts/

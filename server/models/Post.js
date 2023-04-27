@@ -2,10 +2,10 @@ import mongoose from 'mongoose';
 
 
 const postSchema = new mongoose.Schema({
-    title:{type: String, required: true, min: 4},
-    abstract:{type: String, required: true},
-    author:{type: String},
-    content:{type: String, required: true},
+    title:{type: String},
+    category:{type: String, },
+    author:{type : mongoose.Schema.Types.ObjectId, ref: 'User'},
+    content:{type: String},
     cover:{type: String, required: false}
     
 },{timestamps: true})

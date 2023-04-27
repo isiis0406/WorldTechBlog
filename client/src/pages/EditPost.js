@@ -1,94 +1,121 @@
-import React, { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import ReactQuill from 'react-quill';
+import axios from 'axios';
+import JoditEditor from 'jodit-react';
+// import ReactQuill from 'react-quill';
+
 import 'react-quill/dist/quill.snow.css';
 import Button from '../components/Button';
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useEditPost } from '../hooks/useEditPost';
+import { useParams } from 'react-router-dom';
 
 
 function EditPost() {
 
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
-  const [cover, setCover] = useState('');
-  const [value, setValue] = useState('');
+  const [content, setContent] = useState('');
+  const [authorEmail, setAuthorEmail] = useState('');
+  const [oldCoverName, setOldCoverName] = useState('');
+  const [file, setFile] = useState(null);
+
+  const { EditPost, isLoading, error } = useEditPost();
+  const param = useParams();
+
+  //RichText Editor
+  const editor = useRef(null);
+
+  const { user } = useAuthContext();
 
 
+  useEffect(() => {
+    setAuthorEmail(user.data.email);
+    getPost();
+  }, [])
+  
+  //Get the post
+  const getPost = async () => {
+    try {
+      const json = await axios.get(`${process.env.REACT_APP_API_ROUTE}/posts/${param.id}`)
+      
+      setTitle(json.data.title);
+      setCategory(json.data.category);
+      setContent(json.data.content);
+      setOldCoverName(json.data.cover);
+    } catch (error) {
+      console.log(error.message)
+    }
 
-  const handleSubmit = (e) =>{
-    e.preventDefault();
-    //
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const newpost = { title, category, authorEmail, content, oldCoverName };
+    if (file) {
+      const data = new FormData();
+      const filename = Date.now().toString() + file.name;
+      data.append('name', filename);
+      data.append('file', file);
+      newpost.cover = filename;
+
+      try {
+        const uploadURI = `${process.env.REACT_APP_API_ROUTE}/upload`;
+
+        await axios.post(uploadURI, data, {
+          headers: {
+          Authorization : `Bearer ${user.data.token}`
+        }});
+
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    await EditPost(param.id,newpost);
+  }
   return (
-    
     <Wrapper>
       <h2>Édition</h2>
       <Form onSubmit={handleSubmit}>
-        <input 
-        type="text" 
-        placeholder='Titre...' 
-        className='title' 
-        value={title} 
-        onChange={(e)=> {setTitle(e.target.value)}}
+        <input
+          type="text"
+          placeholder='Titre...'
+          className='title'
+          name='title'
+          value={title}
+          onChange={(e) => { setTitle(e.target.value) }}
         />
 
-        <h3>Catégorie : </h3>
-        <div className='categories'>
-          <div>
-
-            <input 
-            type="radio" 
-            name="category" 
-            value="Développement"
-            defaultChecked 
-            onChange={(e)=> {setCategory(e.target.value)}}
-            />
-            <label htmlFor="huey">Développement</label>
-          </div>
-          <div>
-            <input 
-            type="radio" 
-            name="category" 
-            value="Design" 
-            onChange={(e)=> {setCategory(e.target.value)}}
-            />
-            <label htmlFor="huey">Design</label>
-          </div>
-          <div>
-            <input 
-            type="radio" 
-            name="category" 
-            value="Astuces" 
-            onChange={(e)=> {setCategory(e.target.value)}}
-            />
-            <label htmlFor="huey">Astuces</label>
-          </div>
-          <div>
-            <input 
-            type="radio" 
-            name="category" 
-            value="Librairie" 
-            onChange={(e)=> {setCategory(e.target.value)}}
-            />
-            <label htmlFor="huey">Librairie</label>
-          </div>
-        </div>
+       
         <div className="cover">
           <h3>Couverture :</h3>
-          <input 
-          className='coverFileInput' 
-          type="file" 
-          />
+          <input
+            className='coverFileInput'
+            type="file"
+            name='cover'
+            onChange={(e) => setFile(e.target.files[0])} />
+
+        
         </div>
 
-        <ReactQuill 
-        className='contentArea' 
-        theme="snow" 
-        value={value} 
-        onChange={setValue} 
+        <JoditEditor 
+        className='contentArea'
+        ref={editor}
+        value={content}
+        onChange={(content) => setContent(content)}
         />
+        {/* <ReactQuill
+          className='contentArea'
+          theme="snow"
+          value={value}
+          onChange={setValue}
+          name='content'
+        /> */}
+        {error && <Error className='error'>{error}</Error>}
         <div className="BtnContainer">
-        <Button  type={'submit'} value='Modifier' />
+          <Button disabled={isLoading} type={'submit'} value='Modifier' />
 
         </div>
       </Form>
@@ -180,7 +207,10 @@ const Form = styled.form`
     align-items: center;
     justify-content: center;
   }
-
- 
-
+`
+const Error = styled.p`
+color: red;
+font-weight: 500;
+padding: 1rem;
+text-align: center;
 `

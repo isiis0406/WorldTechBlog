@@ -1,19 +1,60 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import JoditEditor from 'jodit-react';
+
 import styled from 'styled-components';
-import ReactQuill from 'react-quill';
+import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
 import Button from '../components/Button';
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useAddPost } from '../hooks/useAddPost';
+
 
 function AddPost() {
 
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
-  const [cover, setCover] = useState('');
-  const [value, setValue] = useState('');
+  const [content, setContent] = useState('');
+  const [authorEmail, setAuthorEmail] = useState('');
+  const [file, setFile] = useState(null);
 
-  const handleSubmit = (e) => {
+  const { addPost, isLoading, error } = useAddPost();
+ 
+  //RichText Editor
+  const editor = useRef(null);
+  
+
+
+
+  const { user } = useAuthContext();
+
+
+  useEffect(() => {
+    setAuthorEmail(user.data.email);
+  }, [user])
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //
+
+    const newpost = { title, category, authorEmail, content };
+    if (file) {
+      const data = new FormData();
+      const filename = Date.now().toString() + file.name;
+      data.append('name', filename);
+      data.append('file', file);
+      newpost.cover = filename;
+      try {
+        const uploadURI = `${process.env.REACT_APP_API_ROUTE}/upload`;
+
+        await axios.post(uploadURI, data, {
+          headers: {
+          Authorization : `Bearer ${user.data.token}`
+        }});
+
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    await addPost(newpost);
   }
   return (
     <Wrapper>
@@ -23,6 +64,7 @@ function AddPost() {
           type="text"
           placeholder='Titre...'
           className='title'
+          name='title'
           value={title}
           onChange={(e) => { setTitle(e.target.value) }}
         />
@@ -35,7 +77,7 @@ function AddPost() {
               type="radio"
               name="category"
               value="Développement"
-              defaultChecked
+              
               onChange={(e) => { setCategory(e.target.value) }}
             />
             <label htmlFor="huey">Développement</label>
@@ -73,17 +115,27 @@ function AddPost() {
           <input
             className='coverFileInput'
             type="file"
-          />
-        </div>
+            name='cover'
+            onChange={(e) => setFile(e.target.files[0])} />
 
-        <ReactQuill
+          
+        </div>
+        <JoditEditor 
+        className='contentArea'
+        ref={editor}
+        onChange={(content) => setContent(content)}
+        placeholder='Écrit ici'
+        />
+        {/* <ReactQuill
           className='contentArea'
           theme="snow"
           value={value}
           onChange={setValue}
-        />
+          name='content'
+        /> */}
+        {error && <Error className='error'>{error}</Error>}
         <div className="BtnContainer">
-          <Button type={'submit'} value='Publier' />
+          <Button disabled={isLoading} type={'submit'} value='Publier' />
 
         </div>
       </Form>
@@ -175,7 +227,10 @@ const Form = styled.form`
     align-items: center;
     justify-content: center;
   }
-
- 
-
+`
+const Error = styled.p`
+color: red;
+font-weight: 500;
+padding: 1rem;
+text-align: center;
 `

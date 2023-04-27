@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import Home from '../pages/Home';
 import AddPost from '../pages/AddPost';
 import EditPost from '../pages/EditPost';
+import PostDetail from '../pages/PostDetail';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import { useAuthContext } from '../hooks/useAuthContext';
@@ -17,7 +18,6 @@ function Pages() {
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
-       
        {/* Add Post route */}
         <Route
           path='/add-post'
@@ -28,6 +28,13 @@ function Pages() {
           path='/edit-post/:id'
           element={user ? <EditPost /> : <Navigate to="/auth/login" />}>
         </Route>
+
+        <Route
+          path='/posts/:id'
+          element={<PostDetail/>}>
+        </Route>
+
+        {/* Auth Routes */}
         <Route path='/auth/register' element={<Register />} />
         <Route path='/auth/login' element={<Login />} />
       </Routes>

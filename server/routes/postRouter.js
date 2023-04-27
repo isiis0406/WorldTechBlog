@@ -2,23 +2,16 @@ import {Router} from 'express';
 
 const postRouter = Router();
 import {
-    getAllPost, 
-    getOnePost, 
+   
     addOnePost,
     updateOnepost,
     deleteOnePost,
     //uploadCover
 }  from '../controllers/postController.js'
 
-//get all post
-postRouter.get('/posts', getAllPost);
-
-//get One post
-postRouter.get('/posts/:id', getOnePost)
-
 
 //add One post
-postRouter.post('/posts/', addOnePost)
+postRouter.post('/posts', addOnePost)
 
 //
 
