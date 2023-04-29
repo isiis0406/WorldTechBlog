@@ -8,6 +8,7 @@ import PostDetail from '../pages/PostDetail';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import { useAuthContext } from '../hooks/useAuthContext';
+import UserVerify from './UserVerify';
 
 
 
@@ -37,6 +38,9 @@ function Pages() {
         {/* Auth Routes */}
         <Route path='/auth/register' element={<Register />} />
         <Route path='/auth/login' element={<Login />} />
+        
+        {/* Verify email */}
+        <Route path='/auth/users/:id/verify/:token' element={<UserVerify/>}/>
       </Routes>
 
     </div>

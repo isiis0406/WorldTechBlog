@@ -1,11 +1,16 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt';
 import validator from 'validator';
+import Token from './token.js';
+import sendEmail from '../utils/sendEmail.js';
+import crypto from 'crypto';
+
 
 
 const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    verified: { type: Boolean, default: false}
 }, { timestamps: true });
 
 
@@ -41,6 +46,17 @@ userSchema.statics.register = async function(email, password){
     // Return signed user
     const user = await this.create({ email, password: hash });
 
+    //Send Verification Email
+
+    //Create the Verification Token to store on database
+    const token = await Token.create({
+        userId: user._id,
+        token: crypto.randomBytes(32).toString("hex")
+    })
+    const url = `${process.env.BASE_URL}auth/users/${user._id}/verify/${token.token}`;
+    const message = "Bienvenu chez worldTech. Merci d'avoir choisit de nous rejoindre.";
+    await sendEmail(user.email, "Activation du compte worldTech", url);
+
     return user;
 }
 
@@ -64,6 +80,7 @@ userSchema.statics.login = async function(email, password){
     if(!match){
         throw Error('Mot de passe incorrect');
     }
+
     return user;
 }
 

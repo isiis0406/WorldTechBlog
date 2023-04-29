@@ -26,7 +26,7 @@ app.use('/auth', authRouter);
 
 app.use('/', postGetRouter);
 
-app.use(requireAuth);
+// app.use(requireAuth);
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
