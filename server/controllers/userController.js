@@ -98,8 +98,11 @@ export const authLogin = async (req, res) => {
             }
 
             //Send Verification email url
-            const url = `${process.env.BASE_URL}users/${user._id}/verify/${token.token}`;
-            await sendEmail(user.email, "Activation du compte worldTech", url);
+            const subject = "Activation de votre compte worldTech"
+            const message = "Bienvenu chez worldTech. Merci d'avoir choisit de nous rejoindre.";
+            const url = `${process.env.BASE_URL}auth/users/${user._id}/verify/${token.token}`;
+
+            await sendEmail(user.email, subject, message, url);
             return res.status(400).json({ message: 'Vous avez reçu un mail, cliquez sur le lien pour activer votre compte.' })
         }
         //Create auth Token
