@@ -4,9 +4,9 @@ import JoditEditor from 'jodit-react';
 import styled from 'styled-components';
 import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
-import Button from '../components/Button';
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useAddPost } from '../hooks/useAddPost';
+import Button from '../../components/Button';
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
+import { useAddPost } from '../../hooks/posts/useAddPost';
 
 
 function AddPost() {
@@ -14,8 +14,9 @@ function AddPost() {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [content, setContent] = useState('');
-  const [authorEmail, setAuthorEmail] = useState('');
+  const [authorId, setAuthorId] = useState('');
   const [file, setFile] = useState(null);
+
 
   const { addPost, isLoading, error } = useAddPost();
  
@@ -29,13 +30,13 @@ function AddPost() {
 
 
   useEffect(() => {
-    setAuthorEmail(user.data.email);
+    setAuthorId(user.data.UserID);
   }, [user])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newpost = { title, category, authorEmail, content };
+    const newpost = { title, category, authorId, content };
     if (file) {
       const data = new FormData();
       const filename = Date.now().toString() + file.name;
@@ -63,7 +64,7 @@ function AddPost() {
         <input
           type="text"
           placeholder='Titre...'
-          className='title'
+          className={'title'} 
           name='title'
           value={title}
           onChange={(e) => { setTitle(e.target.value) }}

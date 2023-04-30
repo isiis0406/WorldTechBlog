@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from 'bcrypt';
 import validator from 'validator';
 import Token from './token.js';
-import sendEmail from '../utils/sendEmail.js';
+import sendEmail from '../utils/sendRegisterEmail.js';
 import crypto from 'crypto';
 
 
@@ -28,9 +28,10 @@ userSchema.statics.register = async function (email, password) {
         throw Error('Email incorrect!');
 
     }
+    const formatEmail = email.toLowerCase();
 
     //Does user exists
-    const exist = await this.findOne({ email });
+    const exist = await this.findOne({ email: formatEmail });
     if (exist) {
         throw Error('Email déjà utilisé');
     }
@@ -44,7 +45,7 @@ userSchema.statics.register = async function (email, password) {
     const hash = await bcrypt.hash(password, salt);
 
     // Return signed user
-    const user = await this.create({ email, password: hash });
+    const user = await this.create({ email: formatEmail, password: hash });
 
     //Send Verification Email
 
@@ -71,8 +72,11 @@ userSchema.statics.login = async function (email, password) {
         throw Error('Veillez remplir tous les champs')
     }
 
+    const formatEmail = email.toLowerCase();
+
+
     //Does user exist
-    const user = await this.findOne({ email });
+    const user = await this.findOne({ email: formatEmail });
     if (!user) {
         throw Error('Email incorrect');
     }

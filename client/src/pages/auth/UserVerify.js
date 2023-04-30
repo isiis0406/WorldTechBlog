@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Banner from '../components/Banner';
+import Banner from '../../components/Banner';
 import axios from 'axios';
 import styled from 'styled-components';
 import swal from 'sweetalert';
@@ -26,7 +26,7 @@ function UserVerify() {
                 title: "Succès!",
                 text: 'Compte vérifié. ',
                 icon: "success",
-                button: "Ok",
+                button: "Ok"
             });
             navigate('/auth/login')
 

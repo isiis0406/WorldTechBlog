@@ -1,20 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from '../components/Button';
+import Button from '../../components/Button';
 import { useState } from 'react';
-import { useRegister } from '../hooks/useRegister';
+import { useRegister } from '../../hooks/auth/useRegister';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
 function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [visible, setVisibility] = useState(false);
+
 
   const { register, isLoading, error } = useRegister();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await register(email, password);
-    
+    await register(email.toLowerCase(), password);
+
   }
 
   return (
@@ -29,12 +32,18 @@ function Register() {
           value={email}
           onChange={(e) => { setEmail(e.target.value) }}
         />
-        <input
-          type="password"
-          placeholder='Mot de passe'
-          value={password}
-          onChange={(e) => { setPassword(e.target.value) }}
-        />
+        <div className='password'>
+          <input
+            type={visible ? "text" : "password"}
+            placeholder='Mot de passe'
+            value={password}
+            onChange={(e) => { setPassword(e.target.value) }}
+          />
+          <div onClick={() => { setVisibility(!visible)}}>
+          {visible ? <FaEyeSlash/> : <FaEye/>}
+
+          </div>
+        </div>
         {error && <Error className='error'>{error}</Error>}
 
         <div className="Btn" >
@@ -74,6 +83,21 @@ const Wrapper = styled.div`
       background-color: #D9D9D9;
       border: none;
     }
+    .password{
+      display: flex;
+      position: relative;
+      align-items: center;
+    
+    
+    }
+    .password svg{
+      position: absolute;
+      right: 37%;
+      
+      font-size: 1.2rem;
+      cursor: pointer;
+      top: 50%;
+    }
     .Btn{
       display: flex;
       justify-content: center;
@@ -87,6 +111,10 @@ const Wrapper = styled.div`
         width: 50%;
         font-size: 1rem;
       };
+      .password svg{
+      position: absolute;
+      right: 28%;
+    }
      
     }
 `

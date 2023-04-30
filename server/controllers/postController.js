@@ -2,7 +2,8 @@ import { Post } from '../models/Post.js';
 import { User } from '../models/user.js';
 import { convert } from 'html-to-text';
 import fs from 'fs';
-import  path from 'path';
+import path from 'path';
+import { error, log } from 'console';
 
 
 // import fileUpload  from "express-fileupload";
@@ -34,21 +35,22 @@ export const getOnePost = async (req, res) => {
 //Add On post
 export const addOnePost = async (req, res) => {
     try {
-        //Find Author ID
-        const user = await User.findOne(req.body.authorEmail);
 
+        //Find Author ID
+        const user = await User.findById(req.body.title.authorId);
         //Manage String data 
         const post = req.body.title;
-        const content = convert(post.content)
         const dataPost =
         {
             title: post.title,
             category: post.category,
             author: user._id,
-            content: content,
+            content: post.content,
             cover: post.cover
         }
+
         // //Store infos & cover path to the database
+        await Post.validatePost(dataPost.title, dataPost.category, dataPost.content);
         const newPost = await Post.create(dataPost);
 
         // res.json({dataPost})
@@ -64,7 +66,7 @@ export const addOnePost = async (req, res) => {
 export const updateOnepost = async (req, res) => {
     try {
         //Find Author ID
-        const user = await User.findOne(req.body.authorEmail);
+        const user = await User.findById(req.body.title.authorId);
 
         //Manage String data 
         const post = req.body.title;
@@ -76,7 +78,7 @@ export const updateOnepost = async (req, res) => {
         const cover = post.cover;
         const oldCoverName = post.oldCoverName;
 
-        if (cover) {
+        if (cover != undefined) {
             // delete old Cover
             fs.unlink(path.join("uploads/") + oldCoverName, function (err) {
                 if (err)
@@ -106,8 +108,8 @@ export const updateOnepost = async (req, res) => {
 //Delete One post 
 export const deleteOnePost = async (req, res) => {
     try {
-        
-        const post = await Post.findById({_id: req.params.id});
+
+        const post = await Post.findById({ _id: req.params.id });
 
         const cover = post.cover;
         if (cover) {

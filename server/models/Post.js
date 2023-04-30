@@ -2,12 +2,26 @@ import mongoose from 'mongoose';
 
 
 const postSchema = new mongoose.Schema({
-    title:{type: String},
-    category:{type: String, },
-    author:{type : mongoose.Schema.Types.ObjectId, ref: 'User'},
-    content:{type: String},
+    title:{type: String, required: true},
+    category:{type: String, required: true },
+    author:{type : mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+    content:{type: String, required: true},
     cover:{type: String, required: false}
     
 },{timestamps: true})
+
+//Create post Static  Method
+postSchema.statics.validatePost = async function (title, category, content) {
+     //Validation
+     if (!title || !category || !content ) {
+        throw Error('Veillez remplir tous les champs')
+    }
+    if(content.lengh == 0){
+        throw Error('Le contenu doit faire au moins 3O charactères')
+
+    }
+     
+}
+
 export const Post = mongoose.model('Post', postSchema);
  

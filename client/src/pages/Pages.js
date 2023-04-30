@@ -2,13 +2,15 @@ import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Home from '../pages/Home';
-import AddPost from '../pages/AddPost';
-import EditPost from '../pages/EditPost';
-import PostDetail from '../pages/PostDetail';
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-import { useAuthContext } from '../hooks/useAuthContext';
-import UserVerify from './UserVerify';
+import AddPost from './posts/AddPost';
+import EditPost from './posts/EditPost';
+import PostDetail from './posts/PostDetail';
+import Login from './auth/Login';
+import Register from './auth/Register';
+import { useAuthContext } from '../hooks/auth/useAuthContext';
+import UserVerify from './auth/UserVerify';
+import ResetPassword from './auth/ResetPassword';
+import ForgotPassword from './auth/ForgotPassword';
 
 
 
@@ -19,7 +21,7 @@ function Pages() {
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
-       {/* Add Post route */}
+        {/* Add Post route */}
         <Route
           path='/add-post'
           element={user ? <AddPost /> : <Navigate to="/auth/login" />}>
@@ -32,15 +34,21 @@ function Pages() {
 
         <Route
           path='/posts/:id'
-          element={<PostDetail/>}>
+          element={<PostDetail />}>
         </Route>
 
         {/* Auth Routes */}
         <Route path='/auth/register' element={<Register />} />
         <Route path='/auth/login' element={<Login />} />
-        
+
         {/* Verify email */}
-        <Route path='/auth/users/:id/verify/:token' element={<UserVerify/>}/>
+        <Route path='/auth/users/:id/verify/:token' element={<UserVerify />} />
+
+        {/* forgot Password */}
+        <Route path='/auth/reset-password' element={<ForgotPassword />} />
+        {/*  Reset Password */}
+        <Route path='/auth/users/:id/reset-password/:token' element={<ResetPassword />} />
+
       </Routes>
 
     </div>

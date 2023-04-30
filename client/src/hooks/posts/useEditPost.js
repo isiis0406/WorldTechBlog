@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
-import { useAuthContext } from "./useAuthContext";
+import { useAuthContext } from "../auth/useAuthContext";
 
 
 
@@ -19,9 +19,9 @@ export function useEditPost() {
 
 
     // eslint-disable-next-line no-unused-vars
-    const EditPost = async (postID, title, category, authorEmail, content, cover) => {
+    const EditPost = async (postID, title, category, authorId, content, cover) => {
 
-        const post = {title, category, authorEmail, content, cover} 
+        const post = {title, category, authorId, content, cover} 
         try {
             setIsLoading(true);
             setError(false);

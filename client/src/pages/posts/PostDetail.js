@@ -5,8 +5,8 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { FaEdit } from 'react-icons/fa';
 import { FaTrash } from 'react-icons/fa';
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useDeletePost } from '../hooks/useDeletePost';
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
+import { useDeletePost } from '../../hooks/posts/useDeletePost';
 
 
 function PostDetail() {
@@ -15,9 +15,11 @@ function PostDetail() {
   // eslint-disable-next-line no-unused-vars
   const { user } = useAuthContext();
 
-  const { deletePost, error, isLoading} = useDeletePost();
 
-  const handleDelete = (e) =>{
+  const { deletePost, error, isLoading } = useDeletePost();
+
+  
+  const handleDelete = (e) => {
     e.preventDefault()
     deletePost(post._id);
   }
@@ -36,24 +38,38 @@ function PostDetail() {
     }
 
   }
+
+  const authCheck = () => {
+    if(user !== null){
+      if(post.author === user.data.UserID){
+        return true
+      }
+    }
+    else{
+      return false;
+    };
+  }
   return (
     <Post>
       <div className='header'>
         <h3>{post.title}</h3>
         <img src={`${process.env.REACT_APP_API_ROUTE}/` + post.cover} alt="couverture du post" />
-        <div className="icons">
-          <Link to={"/edit-post/" + post._id}>
-            <FaEdit className='editIcone' />
-          </Link>
-          <form onSubmit={handleDelete} className="deleteIcon">
-            <button disabled={isLoading} className='btnDanger'><FaTrash /></button>
-          </form>
-          {error && <Error className='error'>{error}</Error>}
-
-          {/* <p>{user.data._id}</p> */}
-        </div>
+        { authCheck() ? 
+               <div className="icons">
+               <Link to={"/edit-post/" + post._id}>
+                 <FaEdit className='editIcone' />
+               </Link>
+               <form onSubmit={handleDelete} className="deleteIcon">
+                 <button disabled={isLoading} className='btnDanger'><FaTrash /></button>
+               </form>
+               {error && <Error className='error'>{error}</Error>}
+   
+               {/* <p>{user.data._id}</p> */}
+             </div>
+             : <></>
+        }
       </div>
-      <p> {  post.content }</p>
+      <p> {post.content}</p>
 
     </Post>
   )

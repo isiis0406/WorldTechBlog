@@ -6,9 +6,9 @@ import JoditEditor from 'jodit-react';
 // import ReactQuill from 'react-quill';
 
 import 'react-quill/dist/quill.snow.css';
-import Button from '../components/Button';
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useEditPost } from '../hooks/useEditPost';
+import Button from '../../components/Button';
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
+import { useEditPost } from '../../hooks/posts/useEditPost';
 import { useParams } from 'react-router-dom';
 
 
@@ -17,7 +17,7 @@ function EditPost() {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [content, setContent] = useState('');
-  const [authorEmail, setAuthorEmail] = useState('');
+  const [authorId, setAuthorId] = useState('');
   const [oldCoverName, setOldCoverName] = useState('');
   const [file, setFile] = useState(null);
 
@@ -31,7 +31,7 @@ function EditPost() {
 
 
   useEffect(() => {
-    setAuthorEmail(user.data.email);
+    setAuthorId(user.data.UserID);
     getPost();
   }, [])
   
@@ -53,7 +53,7 @@ function EditPost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newpost = { title, category, authorEmail, content, oldCoverName };
+    const newpost = { title, category, authorId, content, oldCoverName };
     if (file) {
       const data = new FormData();
       const filename = Date.now().toString() + file.name;

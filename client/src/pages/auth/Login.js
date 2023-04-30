@@ -1,19 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from '../components/Button';
+import Button from '../../components/Button';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useLogin } from '../hooks/useLogin';
+import { useLogin } from '../../hooks/auth/useLogin';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [visible, setVisibility] = useState(false);
+
   const { login, error, isLoading } = useLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(email, password);
+    await login(email.toLowerCase(), password);
 
   }
   return (
@@ -31,24 +34,30 @@ function Login() {
           value={email}
           onChange={(e) => { setEmail(e.target.value) }}
         />
-        <input
-          type="password"
-          placeholder='Mot de passe'
-          value={password}
-          onChange={(e) => { setPassword(e.target.value) }}
-        />
+        <div className="password">
+          <input
+            type={visible ? "text" : "password"}
+            placeholder='Mot de passe'
+            value={password}
+            onChange={(e) => { setPassword(e.target.value) }}
+          />
+          <div onClick={() => { setVisibility(!visible) }}>
+            {visible ? <FaEyeSlash /> : <FaEye />}
+
+          </div>
+        </div>
         {error && <Error className='error'>{error}</Error>}
 
         <div className="Btn" >
-          <Button 
-          type={'submit'} 
-          value="Me connecter"
-          disabled={isLoading}
+          <Button
+            type={'submit'}
+            value="Me connecter"
+            disabled={isLoading}
           />
         </div>
         <div className='links'>
           <Link to='/auth/register'>Je n'ai pas encore de compte</Link>
-          <Link to='/'>Mot de passe oublié</Link>
+          <Link to='/auth/reset-password'>Mot de passe oublié</Link>
         </div>
       </form>
     </Wrapper>
@@ -80,11 +89,27 @@ const Wrapper = styled.div`
       background-color: #D9D9D9;
       border: none;
     }
+    .password{
+      display: flex;
+      position: relative;
+      align-items: center;
+    
+    
+    }
+    .password svg{
+      position: absolute;
+      right: 37%;
+      
+      font-size: 1.2rem;
+      cursor: pointer;
+      top: 50%;
+    }
     .Btn{
       display: flex;
       justify-content: center;
       margin: 2rem;
     }
+    
     .links{
       display: flex;
       justify-content: center;
@@ -102,6 +127,10 @@ const Wrapper = styled.div`
         width: 50%;
         font-size: 1rem;
       };
+      .password svg{
+      position: absolute;
+      right: 28%;
+    }
       .links{
         flex-direction: column;
         align-items: center;

@@ -5,8 +5,8 @@ import { FaBars } from 'react-icons/fa';
 import styled from 'styled-components';
 import Logo from './Logo';
 import { useNavigate } from 'react-router-dom';
-import { useLogout } from '../hooks/useLogout';
-import { useAuthContext } from '../hooks/useAuthContext';
+import { useLogout } from '../hooks/auth/useLogout';
+import { useAuthContext } from '../hooks/auth/useAuthContext';
 
 
 function Navbar() {
@@ -26,7 +26,7 @@ function Navbar() {
     // setCookies('acces_token', "");
     // window.localStorage.removeItem("userID");
     logout();
-    navigate('/auth/login');
+    navigate('/');
 
   }
   return (
@@ -41,7 +41,7 @@ function Navbar() {
       {user &&
         (
           <div>
-            <Link  to="/auth/login" onClick={handleLogout}>Logout</Link>
+            <Link  to="/" onClick={handleLogout}>Logout</Link>
           </div>
         )
       }

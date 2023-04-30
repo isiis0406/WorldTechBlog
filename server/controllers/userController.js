@@ -2,9 +2,13 @@ import express from "express";
 import { User } from "../models/user.js";
 import jwt from "jsonwebtoken";
 const router = express.Router();
+import validator from "validator";
 import Token from '../models/token.js';
-import sendEmail from '../utils/sendEmail.js';
+import sendEmail from '../utils/sendRegisterEmail.js';
+import SendResetPassEMail from "../utils/sendResetPassEmail.js";
 import crypto from 'crypto';
+import bcrypt from 'bcrypt';
+
 import { log } from "console";
 
 //Create Token
@@ -63,7 +67,7 @@ export const authVerify = async (req, res) => {
         });
 
         //Remove the Token
-        // await Token.findByIdAndRemove(token._id);
+        await Token.deleteOne({ _id: token._id });
         //Reponse success Message
         res.status(200).send({ message: 'Email vérifié avec succes' });
 
@@ -103,14 +107,120 @@ export const authLogin = async (req, res) => {
             const url = `${process.env.BASE_URL}auth/users/${user._id}/verify/${token.token}`;
 
             await sendEmail(user.email, subject, message, url);
-            return res.status(400).json({ message: 'Vous avez reçu un mail, cliquez sur le lien pour activer votre compte.' })
+            return res.status(200).json({ message: 'Vous avez reçu un mail, cliquez sur le lien pour activer votre compte.' })
         }
         //Create auth Token
         const token = createToken(user._id);
         //Response
-        res.status(200).json({ email, token });
+        res.status(200).json({ email, UserID: user._id, token });
     } catch (error) {
         //Response
         res.status(505).json({ message: error.message });
     }
+}
+
+//forgot Password
+export const forgotPassword = async (req, res) => {
+    // get email
+    const email = req.body.email;
+    const formatEmail = email.toLowerCase();
+
+    const user = await User.findOne({ email: formatEmail });
+
+    if (!user) {
+        return res.status(404).json({ message: "Le mail saisis ne possède pas de compte" })
+    }
+
+    //Find token
+    const token = await Token.findOne({ userId: user._id })
+    if (!token) {
+        // create token
+        //Create the Verification Token to store on database
+        const token = await Token.create({
+            userId: user._id,
+            token: crypto.randomBytes(32).toString("hex")
+
+        });
+        //Send Verification email url
+        const url = `${process.env.BASE_URL}auth/users/${user._id}/reset-password/${token.token}`;
+        await SendResetPassEMail(user.email, "Réinitialisation du mot de passe de votre compte worldTech", url);
+
+        //Success
+        return res.status(200).json({ message: 'Vous avez reçu un mail, cliquez sur le lien pour réinitialiser votre mot de passe.' })
+
+    }
+    //Send Verification email url
+    const url = `${process.env.BASE_URL}auth/users/${user._id}/reset-password/${token.token}`;
+    await SendResetPassEMail(user.email, "Réinitialisation du mot de passe de votre compte worldTech", url);
+
+    //Success
+    return res.status(200).json({ message: 'Vous avez reçu un mail, cliquez sur le lien pour réinitialiser votre mot de passe.' })
+
+
+}
+
+//Reset Password
+export const resetPassword = async (req, res) => {
+
+    //get Password
+    const { password, confirmPassword } = req.body;
+
+    if(!password){
+        return res.status(404).json({ message: 'Veillez remplir tous les champs' })
+    }
+    if (!validator.isStrongPassword(password)) {
+        return res.status(404).json({ message: 'Mot de passe trop faible!' })
+
+    }
+    if (password !== confirmPassword) {
+        return res.status(404).json({ message: 'Les mots de passes saisis ne correspondent pas.' })
+    }
+    try {
+        //Find the User
+        const user = await User.findOne({ _id: req.params.id })
+        // //Does the user Exist
+        if (!user) {
+            return res.status(400).send({ message: 'Lien invalid' });
+
+        }
+        // // Find the Verify token
+        const token = await Token.findOne({
+            userId: user._id,
+            token: req.params.token
+        })
+        //Does the token is Correct
+        if (!token) {
+            return res.status(400).send({ message: 'Lien invalid' });
+        }
+
+        // //Accept user Authentication
+        // Hashing password
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(password, salt);
+        await User.updateOne({ _id: user._id }, {
+            $set: {
+                password: hash
+            }
+        });
+
+
+        //Remove the Token
+        await Token.deleteOne({ _id: token._id });
+        //Reponse success Message
+        res.status(200).send({ message: 'Mot de passe modifié. Vous pouvez à présent vous connecter' });
+
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+
+
+    //Verify Token
+
+
+    //Hash Password
+
+    //update Password
+
+    //Reset Success
 }

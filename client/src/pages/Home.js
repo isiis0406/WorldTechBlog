@@ -1,6 +1,6 @@
 import React from 'react';
 import Banner from '../components/Banner';
-import SearchBar from '../components/SearchBar';
+// import SearchBar from '../components/SearchBar';
 import PostsList from '../components/PostsList';
 
 function Home() {
@@ -8,7 +8,7 @@ function Home() {
     <div>
      
       <Banner/>
-      <SearchBar/>
+      {/* <SearchBar/> */}
       <PostsList/>
     </div>
   )

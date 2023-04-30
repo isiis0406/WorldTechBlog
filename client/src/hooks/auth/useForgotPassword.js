@@ -1,55 +1,52 @@
-/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import axios from 'axios';
+// import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
-import { useAuthContext } from "./useAuthContext";
 
 
 
 
-
-export function useAddPost() {
+export function useForgotPassword() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(false);
+    // const { dispatch } = useAuthContext();
     const navigate = useNavigate();
-    const { user } = useAuthContext();
-
 
 
     // eslint-disable-next-line no-unused-vars
-    const addPost = async (title, category, authorEmail, content, cover) => {
+    const emailVerify = async (email) => {
 
-        const post = {title, category, authorEmail, content, cover} 
         try {
             setIsLoading(true);
             setError(false);
-            const URL = `${process.env.REACT_APP_API_ROUTE}/posts`;
-             const json = await axios.post(URL, post,{
-                headers: {
-                    Authorization : `Bearer ${user.data.token}`
-                }
-             });
-              
+            const URL = `${process.env.REACT_APP_API_ROUTE}/auth/forgot_pass`; 
+            console.log(URL);
+            const json = await axios.post(URL, { email });
+              // Save user to the local storage;
+            //   localStorage.setItem('user', JSON.stringify(json));
+            //   // Update AuthContext
+            //   dispatch({ type: 'LOGIN', payload: json });
               setIsLoading(false);
              // alert('Registration completed');
              //Alert the Ok response
+             
              swal({
                 title: "Succès!",
-                text: "Post publié",
+                text: json.data.message,
                 icon: "success",
                 button: "Ok",
             });
-            navigate('/');
+            navigate('/auth/login');
 
 
         } catch (error) {
             setIsLoading(false);
+            console.log(error.response.data);
             setError(error.response.data.message);
-            //alert(error.response.data.message);
-        }
+            }
 
 }
-return { addPost, error, isLoading };
+return { emailVerify, error, isLoading };
 
 }

@@ -1,4 +1,6 @@
 import {Router} from 'express';
+import requireAuth from "../middleware/requireAuth.js";
+
 
 const postRouter = Router();
 import {
@@ -10,16 +12,17 @@ import {
 }  from '../controllers/postController.js'
 
 
+
 //add One post
-postRouter.post('/posts', addOnePost)
+postRouter.post('/posts',requireAuth, addOnePost)
 
 //
 
 //update One post
-postRouter.patch('/posts/:id', updateOnepost)
+postRouter.patch('/posts/:id', requireAuth, updateOnepost)
 
 //delete One post
-postRouter.delete('/posts/:id', deleteOnePost)
+postRouter.delete('/posts/:id',requireAuth,  deleteOnePost)
 
 
 
