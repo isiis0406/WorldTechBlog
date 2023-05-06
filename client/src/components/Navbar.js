@@ -42,6 +42,7 @@ function Navbar() {
         (
           <div>
             <Link  to="/" onClick={handleLogout}>Logout</Link>
+            <Link  to={`/users/${user.data.UserID}/profil`}>Profil</Link>
           </div>
         )
       }
@@ -49,6 +50,7 @@ function Navbar() {
         (
           <div>
             <NavLink to="/auth/login" onClick={handleClick} >Login</NavLink>
+            <NavLink to="/auth/register" onClick={handleClick} >Sign in</NavLink>
           </div>
         )
       }

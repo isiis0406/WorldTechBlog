@@ -10,7 +10,15 @@ import crypto from 'crypto';
 const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    verified: { type: Boolean, default: false }
+    verified: { type: Boolean, default: false },
+    name: {type : String},
+    title: {type: String},
+    hobby: {type: String},
+    facebookUrl:  {type: String},
+    instagramUrl:  {type: String}, 
+    linkedInUrl:  {type: String},
+    profilImage:  {type: String},
+    profilCoverImage:  {type: String}  
 }, { timestamps: true });
 
 

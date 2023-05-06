@@ -1,4 +1,7 @@
 import express from "express";
+import fs from 'fs';
+import path from 'path';
+
 import { User } from "../models/user.js";
 import jwt from "jsonwebtoken";
 const router = express.Router();
@@ -112,7 +115,22 @@ export const authLogin = async (req, res) => {
         //Create auth Token
         const token = createToken(user._id);
         //Response
-        res.status(200).json({ email, UserID: user._id, token });
+        res.status(200).json({
+
+            UserID: user._id,
+            token,
+            profilInfos: {
+                email,
+                name: user.name,
+                title: user.title,
+                hobby: user.hobby,
+                facebookUrl: user.facebookUrl,
+                instagramUrl: user.instagramUrl,
+                linkedInUrl: user.linkedInUrl,
+                profilImage: user.profilImage,
+                profilCoverImage: user.profilCoverImage,
+            }
+        });
     } catch (error) {
         //Response
         res.status(505).json({ message: error.message });
@@ -165,7 +183,7 @@ export const resetPassword = async (req, res) => {
     //get Password
     const { password, confirmPassword } = req.body;
 
-    if(!password){
+    if (!password) {
         return res.status(404).json({ message: 'Veillez remplir tous les champs' })
     }
     if (!validator.isStrongPassword(password)) {
@@ -223,4 +241,91 @@ export const resetPassword = async (req, res) => {
     //update Password
 
     //Reset Success
+}
+
+
+//Get User Profil
+export const getUserProfil = async (req, res) => {
+    try {
+        //Find the User
+        const user = await User.findOne({ _id: req.params.id });
+          //Create auth Token
+          const token = createToken(user._id);
+          //Response
+          res.status(200).json({
+                profilInfos: {
+                  name: user.name,
+                  title: user.title,
+                  hobby: user.hobby,
+                  facebookUrl: user.facebookUrl,
+                  instagramUrl: user.instagramUrl,
+                  linkedInUrl: user.linkedInUrl,
+                  profilImage: user.profilImage,
+                  profilCoverImage: user.profilCoverImage,
+              }
+          });
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+// Edit Profil
+export const editProfil = async (req, res) => {
+    try {
+        //Find the User
+        const user = await User.findOne({ _id: req.params.id });
+        if (!user) {
+            return res.status(400).json({ message: 'Wrong credentials' });
+        }
+        
+
+        //Manage String data 
+        const profile = req.body;
+
+        const name = profile.name;
+        const title = profile.title;
+        const hobby = profile.hobby;
+        const facebookUrl = profile.facebookUrl
+        const instagramUrl = profile.instagramUrl
+        const linkedInUrl = profile.linkedInUrl
+        const profilImage = profile.profilImage;
+        const oldProfilImage = profile.oldProfilImage;
+        // const profilCoverImage = profile.profilCoverImage;
+        // const oldProfilCoverImage = profile.oldProfilCoverImage;
+
+        if (profilImage != undefined) {
+            // delete old Cover
+            if (fs.existsSync('../uploads/' + oldProfilImage)) {
+                fs.unlink(path.join("uploads/") + oldProfilImage, function (err) {
+                    if (err)
+                        throw err;
+                    // if no error, file has been deleted successfully
+                    console.log('File deleted!');
+                });
+            }
+        }
+        // if (profilCoverImage != undefined) {
+        //     // delete old Cover
+        //     fs.promises.unlink(path.join("uploads/profil/") + oldProfilCoverImage, function (err) {
+        //         if (err)
+        //             throw err;
+        //         // if no error, file has been deleted successfully
+        //         console.log('File deleted!');
+        //     });
+        // }
+
+        const updatedProfil = await User.updateOne({ _id: req.params.id }, {
+            $set: {
+                name, title, hobby, facebookUrl, instagramUrl, linkedInUrl, profilImage
+            }
+        });
+        if (JSON.parse(updatedProfil.modifiedCount) == false) {
+            return res.status(404).json({ message: "Post not founded" });
+        }
+        res.status(200).json({ log: updatedProfil, message: "Profil updated succesfully" })
+
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }

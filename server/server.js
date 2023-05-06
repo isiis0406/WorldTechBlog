@@ -4,10 +4,11 @@ import dotenv, { config } from 'dotenv';
 import dbConnect from "./database/db.js";
 import { authRouter } from "./routes/AuthRoute.js";
 import { postRouter } from "./routes/postRouter.js";
-import { postGetRouter } from "./routes/postGetRouter.js";
+import { uploadRouter } from "./routes/uploadRouter.js";
 import  path from 'path';
 import multer from 'multer';
 import { URL } from "url";
+
 
 
 import requireAuth from "./middleware/requireAuth.js";
@@ -24,10 +25,11 @@ dbConnect();
 
 app.use('/auth', authRouter);
 
-app.use('/', postGetRouter);
 
 // app.use(requireAuth);
 
+
+// Upload Storage for Imges
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null,'uploads')
@@ -37,11 +39,14 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({ storage: storage});
-app.post("/upload",upload.single('file'), (req,res) =>{
-    
+
+//Upload Image Route
+app.use("/upload", requireAuth , upload.single('file'), (req,res) =>{
     res.status(200).json( "image uploaded");
 
 })
+
+// app.use('/', uploadRouter)
 
 
 app.use('/', postRouter);

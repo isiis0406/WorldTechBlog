@@ -18,6 +18,16 @@ export const getAllPost = async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 }
+//Get User Post
+export const getUserPost = async (req, res) => {
+    const authorId = req.params.id
+    try {
+        const posts = await Post.find({author : authorId }).sort({ createdAt: -1 });
+        res.status(200).json(posts);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
 
 //Get One post
 export const getOnePost = async (req, res) => {

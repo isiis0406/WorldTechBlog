@@ -11,6 +11,7 @@ import { useAuthContext } from '../hooks/auth/useAuthContext';
 import UserVerify from './auth/UserVerify';
 import ResetPassword from './auth/ResetPassword';
 import ForgotPassword from './auth/ForgotPassword';
+import Profil from './Profil/Profil';
 
 
 
@@ -21,33 +22,38 @@ function Pages() {
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
-        {/* Add Post route */}
-        <Route
-          path='/add-post'
-          element={user ? <AddPost /> : <Navigate to="/auth/login" />}>
-        </Route>
-        {/* Edit post Route */}
-        <Route
-          path='/edit-post/:id'
-          element={user ? <EditPost /> : <Navigate to="/auth/login" />}>
-        </Route>
 
-        <Route
-          path='/posts/:id'
-          element={<PostDetail />}>
-        </Route>
+        {/* Posts routes */}
+          {/* Add Post route */}
+          <Route
+            path='/add-post'
+            element={user ? <AddPost /> : <Navigate to="/auth/login" />}>
+          </Route>
+          {/* Edit post Route */}
+          <Route
+            path='/edit-post/:id'
+            element={user ? <EditPost /> : <Navigate to="/auth/login" />}>
+          </Route>
+          {/* Post detail Route */}
+          <Route
+            path='/posts/:id'
+            element={<PostDetail />}>
+          </Route>
 
         {/* Auth Routes */}
-        <Route path='/auth/register' element={<Register />} />
-        <Route path='/auth/login' element={<Login />} />
+          <Route path='/auth/register' element={<Register />} />
+          <Route path='/auth/login' element={<Login />} />
 
-        {/* Verify email */}
-        <Route path='/auth/users/:id/verify/:token' element={<UserVerify />} />
+          {/* Verify email */}
+          <Route path='/auth/users/:id/verify/:token' element={<UserVerify />} />
 
-        {/* forgot Password */}
-        <Route path='/auth/reset-password' element={<ForgotPassword />} />
-        {/*  Reset Password */}
-        <Route path='/auth/users/:id/reset-password/:token' element={<ResetPassword />} />
+          {/* forgot Password */}
+          <Route path='/auth/reset-password' element={<ForgotPassword />} />
+          {/*  Reset Password */}
+          <Route path='/auth/users/:id/reset-password/:token' element={<ResetPassword />} />
+
+        {/* Profile Routes */}
+        <Route path='/users/:id/profil' element={<Profil/>}/>
 
       </Routes>
 
