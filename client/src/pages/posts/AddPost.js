@@ -13,6 +13,7 @@ function AddPost() {
 
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
+  const [summary, setSummary] = useState('');
   const [content, setContent] = useState('');
   const [authorId, setAuthorId] = useState('');
   const [file, setFile] = useState(null);
@@ -36,7 +37,7 @@ function AddPost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newpost = { title, category, authorId, content };
+    const newpost = { title, category, authorId, summary, content };
     if (file) {
       const data = new FormData();
       const filename = Date.now().toString() + file.name;
@@ -111,6 +112,18 @@ function AddPost() {
             <label htmlFor="huey">Librairie</label>
           </div>
         </div>
+       
+          <textarea 
+          name="summary" 
+          id="summary" 
+          cols="30" 
+          rows="10" 
+          placeholder='Resumé'
+          className="summary"
+          value={summary}
+          onChange={(e) => { setSummary(e.target.value) }}
+          >
+          </textarea>
         <div className="cover">
           <h3>Couverture :</h3>
           <input
@@ -227,6 +240,14 @@ const Form = styled.form`
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .summary{
+    width: 80%;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    outline: none;
+    padding: 1rem;
+    font-family:  Roboto, sans-serif, ;
   }
 `
 const Error = styled.p`

@@ -1,6 +1,5 @@
 import { Post } from '../models/Post.js';
 import { User } from '../models/user.js';
-import { convert } from 'html-to-text';
 import fs from 'fs';
 import path from 'path';
 import { error, log } from 'console';
@@ -55,12 +54,13 @@ export const addOnePost = async (req, res) => {
             title: post.title,
             category: post.category,
             author: user._id,
+            summary: post.summary,
             content: post.content,
             cover: post.cover
         }
 
         // //Store infos & cover path to the database
-        await Post.validatePost(dataPost.title, dataPost.category, dataPost.content);
+        await Post.validatePost(dataPost.title, dataPost.category, dataPost.summary, dataPost.content);
         const newPost = await Post.create(dataPost);
 
         // res.json({dataPost})
@@ -84,7 +84,8 @@ export const updateOnepost = async (req, res) => {
         const title = post.title;
         const category = post.category;
         const author = user._id;
-        const content = convert(post.content)
+        const summary = post.summary;
+        const content = post.content
         const cover = post.cover;
         const oldCoverName = post.oldCoverName;
 
@@ -103,7 +104,7 @@ export const updateOnepost = async (req, res) => {
 
         const updatedPost = await Post.updateOne({ _id: req.params.id }, {
             $set: {
-                title, category, author, content, cover
+                title, category, author, summary, content, cover
             }
         });
         if (JSON.parse(updatedPost.modifiedCount) == false) {

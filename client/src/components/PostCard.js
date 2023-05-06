@@ -1,19 +1,21 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from 'react';
 import styled from 'styled-components';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function PostCard({ post }) {
   return (
     <Post>
       <div className="cover">
-        <Link to={'/posts/'+ post._id}>
+        <Link to={'/posts/' + post._id}>
           <img src={`${process.env.REACT_APP_API_ROUTE}/` + post.cover} alt='Image de couverture du post' />
         </Link>
       </div>
       <div className="abstract">
         <h3>{post.title}</h3>
-        <p>{post.content.substring(0,200)}</p>
+        <p className='content'>
+        {post.summary.substring(0,280) + "..."}
+        </p>
       </div>
     </Post>
   )
@@ -42,11 +44,14 @@ const Post = styled.div`
     font-weight: 600;
     padding-top: 2rem;
   }
-  p{
+  p {
     padding: 2rem;
     text-align: justify;
     font-size: 1.2rem;
     color: #454242;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   @media screen and (max-width: 1200px) {
     padding: 4rem;

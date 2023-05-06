@@ -19,9 +19,9 @@ export function useEditPost() {
 
 
     // eslint-disable-next-line no-unused-vars
-    const EditPost = async (postID, title, category, authorId, content, cover) => {
+    const EditPost = async (postID, title, category, authorId, summary, content, cover) => {
 
-        const post = {title, category, authorId, content, cover} 
+        const post = {title, category, authorId, summary, content, cover} 
         try {
             setIsLoading(true);
             setError(false);
@@ -41,8 +41,7 @@ export function useEditPost() {
                 icon: "success",
                 button: "Ok",
             });
-                 //Redirect to home Page
-                 navigate(`/`);
+                
 
 
         } catch (error) {

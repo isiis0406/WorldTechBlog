@@ -9,13 +9,14 @@ import 'react-quill/dist/quill.snow.css';
 import Button from '../../components/Button';
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useEditPost } from '../../hooks/posts/useEditPost';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 
 function EditPost() {
 
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
+  const [summary, setSummary] = useState('');
   const [content, setContent] = useState('');
   const [authorId, setAuthorId] = useState('');
   const [oldCoverName, setOldCoverName] = useState('');
@@ -23,6 +24,7 @@ function EditPost() {
 
   const { EditPost, isLoading, error } = useEditPost();
   const param = useParams();
+  const navigate = useNavigate();
 
   //RichText Editor
   const editor = useRef(null);
@@ -34,14 +36,15 @@ function EditPost() {
     setAuthorId(user.data.UserID);
     getPost();
   }, [])
-  
+
   //Get the post
   const getPost = async () => {
     try {
       const json = await axios.get(`${process.env.REACT_APP_API_ROUTE}/posts/${param.id}`)
-      
+
       setTitle(json.data.title);
       setCategory(json.data.category);
+      setSummary(json.data.summary);
       setContent(json.data.content);
       setOldCoverName(json.data.cover);
     } catch (error) {
@@ -53,7 +56,7 @@ function EditPost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newpost = { title, category, authorId, content, oldCoverName };
+    const newpost = { title, category, authorId, summary, content, oldCoverName };
     if (file) {
       const data = new FormData();
       const filename = Date.now().toString() + file.name;
@@ -66,14 +69,17 @@ function EditPost() {
 
         await axios.post(uploadURI, data, {
           headers: {
-          Authorization : `Bearer ${user.data.token}`
-        }});
+            Authorization: `Bearer ${user.data.token}`
+          }
+        });
 
       } catch (error) {
         console.log(error.message);
       }
     }
-    await EditPost(param.id,newpost);
+    await EditPost(param.id, newpost);
+     //Redirect to home Page
+     navigate(`/posts/${param.id}`);
   }
   return (
     <Wrapper>
@@ -88,7 +94,17 @@ function EditPost() {
           onChange={(e) => { setTitle(e.target.value) }}
         />
 
-       
+        <textarea
+          name="summary"
+          id="summary"
+          cols="30"
+          rows="10"
+          placeholder='Resumé'
+          className="summary"
+          value={summary}
+          onChange={(e) => { setSummary(e.target.value) }}
+        >
+        </textarea>
         <div className="cover">
           <h3>Couverture :</h3>
           <input
@@ -97,14 +113,14 @@ function EditPost() {
             name='cover'
             onChange={(e) => setFile(e.target.files[0])} />
 
-        
+
         </div>
 
-        <JoditEditor 
-        className='contentArea'
-        ref={editor}
-        value={content}
-        onChange={(content) => setContent(content)}
+        <JoditEditor
+          className='contentArea'
+          ref={editor}
+          value={content}
+          onChange={(content) => setContent(content)}
         />
         {/* <ReactQuill
           className='contentArea'
@@ -206,6 +222,14 @@ const Form = styled.form`
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .summary{
+    width: 80%;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    outline: none;
+    padding: 1rem;
+    font-family:  Roboto, sans-serif, ;
   }
 `
 const Error = styled.p`

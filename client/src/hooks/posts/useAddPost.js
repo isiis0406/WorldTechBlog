@@ -20,9 +20,9 @@ export function useAddPost() {
 
 
     // eslint-disable-next-line no-unused-vars
-    const addPost = async (title, category, authorId, content, cover) => {
+    const addPost = async (title, category, authorId, summary, content, cover) => {
 
-        const post = {title, category, authorId, content, cover} 
+        const post = {title, category, authorId, summary, content, cover} 
         try {
             setIsLoading(true);
             setError(false);
