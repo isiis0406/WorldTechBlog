@@ -17,7 +17,9 @@ function PostCardProfil({ post }) {
       
       <div className="abstract">
       <span>{post.title}</span>
-        <p>{post.content.substring(0,200)}</p>
+        <p className='content'> {post.summary.substring(0,100) + "..."}
+      
+        </p>
       </div>
      </div>
     </Post>

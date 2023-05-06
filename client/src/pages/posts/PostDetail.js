@@ -18,7 +18,7 @@ function PostDetail() {
 
   const { deletePost, error, isLoading } = useDeletePost();
 
-
+  
   const handleDelete = (e) => {
     e.preventDefault()
     deletePost(post._id);
@@ -40,12 +40,12 @@ function PostDetail() {
   }
 
   const authCheck = () => {
-    if (user !== null) {
-      if (post.author === user.data.UserID) {
+    if(user !== null){
+      if(post.author === user.data.UserID){
         return true
       }
     }
-    else {
+    else{
       return false;
     };
   }
@@ -54,26 +54,25 @@ function PostDetail() {
       <div className='header'>
         <h3>{post.title}</h3>
         <img src={`${process.env.REACT_APP_API_ROUTE}/` + post.cover} alt="couverture du post" />
-        {authCheck() ?
-          <div className="icons">
-            <Link to={"/edit-post/" + post._id}>
-              <FaEdit className='editIcone' />
-            </Link>
-            <form onSubmit={handleDelete} className="deleteIcon">
-              <button disabled={isLoading} className='btnDanger'><FaTrash /></button>
-            </form>
-            {error && <Error className='error'>{error}</Error>}
-
-            {/* <p>{user.data._id}</p> */}
-          </div>
-          : <></>
+        { authCheck() ? 
+               <div className="icons">
+               <Link to={"/edit-post/" + post._id}>
+                 <FaEdit className='editIcone' />
+               </Link>
+               <form onSubmit={handleDelete} className="deleteIcon">
+                 <button disabled={isLoading} className='btnDanger'><FaTrash /></button>
+               </form>
+               {error && <Error className='error'>{error}</Error>}
+   
+               {/* <p>{user.data._id}</p> */}
+             </div>
+             : <></>
         }
       </div>
-      <p className='content'>{post.summary}</p>
-      <p
-        className='content'
-        dangerouslySetInnerHTML={{ __html: post.content }}>
-      </p>
+      <p className='content-summary'> {post.summary}</p>
+      <div className='content' dangerouslySetInnerHTML={{ __html: post.content }}>
+        
+      </div>
     </Post>
   )
 }
@@ -91,12 +90,13 @@ const Post = styled.div`
   }
   h3{
     padding: 2rem;
+    font-size: 3rem;
   }
   img{
     max-width: 100%;
     width: 70%;
   }
-  .content{
+  p{
     padding: 2rem ;
     text-align: justify;
   }
@@ -122,6 +122,10 @@ const Post = styled.div`
     border: none;
     outline: none;
     font-size: 2rem;
+  }
+  .content-summary{
+    line-height: 2rem;
+    
   }
 `
 

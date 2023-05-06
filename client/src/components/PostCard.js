@@ -49,9 +49,7 @@ const Post = styled.div`
     text-align: justify;
     font-size: 1.2rem;
     color: #454242;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    line-height: 2rem;
   }
   @media screen and (max-width: 1200px) {
     padding: 4rem;

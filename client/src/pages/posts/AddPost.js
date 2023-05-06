@@ -119,6 +119,7 @@ function AddPost() {
           cols="30" 
           rows="10" 
           placeholder='Resumé'
+          maxLength={1000}
           className="summary"
           value={summary}
           onChange={(e) => { setSummary(e.target.value) }}
