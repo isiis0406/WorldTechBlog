@@ -53,6 +53,9 @@ function Profil() {
       <Modal showModal={showModal}> 
       <EditProfil profilInfos={profilInfos} setShowModal={setShowModal} /> 
       </Modal>
+      <Modal showModal={showModal}>
+        {/* <EditAvatart/> */}
+      </Modal>
       <BannerProfil profilInfos={profilInfos} />
       <Wrapper>
         <div className="editProfil">
@@ -88,7 +91,7 @@ position: relative;
     padding: 4rem 8rem ;
     font-size: 3rem;
     font-weight: 200; 
-    color: #1D3557; 
+    color: #000; 
   }
 
   .profilDetail{
@@ -109,7 +112,7 @@ position: relative;
   }
   .editProfil button{
     color: white;
-    background-color: #1D3557;
+    background-color: #000;
     margin: 1rem;
     padding: 0.6rem 2rem;
     border: none;

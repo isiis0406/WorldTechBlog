@@ -1,49 +1,78 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto' sans-serif;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+    scroll-behavior: smooth;
 }
+
 @font-face {
     font-family: roboto-bold;
     src: url('../../public/fonts/Roboto-Bold.ttf');
 }
+
 @font-face {
     font-family: roboto-regular;
     src: url('../../public/fonts/Roboto-Regular.ttf');
 }
+
 @font-face {
     font-family: roboto-light;
     src: url('../../public/fonts/Roboto-Light.ttf');
 }
+
 @font-face {
     font-family: roboto-medium;
     src: url('../../public/fonts/Roboto-Medium.ttf');
 }
+
 @font-face {
     font-family: roboto-thin;
     src: url('../../public/fonts/Roboto-Thin.ttf');
 }
-h1{
+
+element {
+    --main-bg-color: rgb(255, 255, 255);
+    --second-bg-color: rgb(0, 0, 0);
+    --main-text-color: #1D3557
+}
+
+h1 {
     font-family: roboto-bold;
+    color: var(--main-text-color);
+
 }
-h2{
+
+h2 {
     font-family: roboto-regular;
+    color: var(--main-text-color);
+
 
 }
-h3{
+
+h3 {
     font-family: roboto-regular;
+    color: var(--main-text-color);
+
 
 }
-h4{
+
+h4 {
+    color: var(--main-text-color);
 
 }
-p{
+
+p {
     font-family: roboto-regular;
     font-size: 1.4rem;
     line-height: 3rem;
+    color: var(--main-text-color);
+
 
 }
-a{
+
+a {
     text-decoration: none;
 }

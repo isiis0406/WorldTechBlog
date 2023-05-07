@@ -24,7 +24,7 @@ function UserVerify() {
             setValidUrl(true);
             swal({
                 title: "Succès!",
-                text: 'Compte vérifié. ',
+                text: 'Compte vérifié. À présent connectez vous et personnalisez votre profil ',
                 icon: "success",
                 button: "Ok"
             });

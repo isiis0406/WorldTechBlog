@@ -11,7 +11,7 @@ function Button({type, value}) {
 
 export default Button
 const Btn = styled.button`
-  background-color: #1D3557;
+  background-color: #111;
   color: #FFF;
   border-radius: 1.5rem;
   padding: 0.8rem 3rem;

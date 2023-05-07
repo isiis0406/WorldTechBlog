@@ -94,7 +94,7 @@ const Nav = styled.div`
     justify-content: space-between;
     padding: 1rem 3rem;
     height: 100px;
-    background-color: #1D3557;
+    background-color: #000;
 
     .nav-list{
       display: flex;
@@ -123,7 +123,7 @@ const Nav = styled.div`
           position: absolute;
           font-size: 2rem;
           color: white;
-          background-color: #1D3557;
+          background-color: #000;
           border: none;
           outline: none;
           top: 2.2rem; 

@@ -15,17 +15,17 @@ function ProfilDetail({ profilInfos }) {
             </div>
             <div className="socialIcons">
                 {profilInfos.facebookUrl ?
-                    <Link to={"http://" + profilInfos.facebookUrl}>
+                    <Link to={"http://" + profilInfos.facebookUrl} target='_blank'>
                         <FaFacebook />
                     </Link> : <span></span>
                 }
                 {profilInfos.instagramUrl ?
-                    <Link to={"http://" + profilInfos.instagramUrl}>
+                    <Link to={"http://" + profilInfos.instagramUrl} target='_blank'>
                         <FaInstagram />
                     </Link> : <span></span>
                 }
                 {profilInfos.linkedInUrl ?
-                    <Link to={"http://" + profilInfos.linkedInUrl}>
+                    <Link to={"http://" + profilInfos.linkedInUrl} target='_blank'>
                         <FaLinkedin />
                     </Link> : <span></span>
                 }
@@ -44,6 +44,6 @@ const Wrapper = styled.div`
     .socialIcons svg{
         font-size: 1.4rem;
         margin-right: .6rem;
-        color: #1D3557;
+        color: #000;
     }
 `

@@ -12,6 +12,7 @@ import { error, log } from 'console';
 export const getAllPost = async (req, res) => {
     try {
         const posts = await Post.find().sort({ createdAt: -1 });
+        
         res.status(200).json(posts);
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -31,7 +32,7 @@ export const getUserPost = async (req, res) => {
 //Get One post
 export const getOnePost = async (req, res) => {
     try {
-        const post = await Post.findById(req.params.id);
+        const post = await Post.findById(req.params.id).populate('author',['name']);
         if (post == null) {
             return res.status(404).json({ message: "Cannot find post" })
         }

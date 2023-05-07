@@ -3,13 +3,14 @@ import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import JoditEditor from 'jodit-react';
+import { FaTimes } from 'react-icons/fa';
 // import ReactQuill from 'react-quill';
 
 import 'react-quill/dist/quill.snow.css';
 import Button from '../../components/Button';
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useEditPost } from '../../hooks/posts/useEditPost';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 
 function EditPost() {
@@ -99,6 +100,11 @@ function EditPost() {
     <Wrapper>
       <h2>Édition</h2>
       <Form onSubmit={handleSubmit}>
+        <div className="icons">
+          <Link disabled={isLoading} to={`/posts/${param.id}`} >
+            <FaTimes />
+          </Link>
+        </div>
         <input
           type="text"
           placeholder='Titre...'
@@ -149,8 +155,9 @@ function EditPost() {
           name='content'
         /> */}
         {error && <Error className='error'>{error}</Error>}
-        <div className="BtnContainer">
+        <div className="BtnContainer ">
           <Button disabled={isLoading} type={'submit'} value='Modifier' />
+
 
         </div>
       </Form>
@@ -214,6 +221,7 @@ const Form = styled.form`
     border-bottom: 1px solid black;
     outline: none;
     margin: 2rem 0;
+    width: 80%;
   }
   h3{
     font-size: 1.4rem;
@@ -254,6 +262,20 @@ const Form = styled.form`
     max-width: 100%;
     width: 60%;
     padding: 2rem;
+  }
+  .icons{
+    padding: 1rem;
+    font-size: 2rem;
+    position: relative;
+
+  }
+  svg {
+    color: #1D3557;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    
   }
 `
 const Error = styled.p`

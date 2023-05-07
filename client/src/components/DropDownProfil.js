@@ -55,4 +55,11 @@ const Wrapper = styled.div`
       margin-left: 2rem;
       cursor: pointer;
     }
+    svg{
+      font-size: 3rem;
+      color: white;
+      margin-left: 1rem;
+      cursor: pointer;
+
+    }
 `

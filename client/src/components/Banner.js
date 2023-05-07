@@ -24,7 +24,7 @@ const Wrapper = styled.div`
         position: absolute;
         left: 26%;
         top: 28%;
-        color: #457B9D;
+        color: rgb(210,210,210);
         font-size: 3rem;
         font-weight: 600;
     }

@@ -48,7 +48,7 @@ const Post = styled.div`
     padding: 2rem;
     text-align: justify;
     font-size: 1.2rem;
-    color: #454242;
+    color: var(--main-text-color);
     line-height: 2rem;
   }
   @media screen and (max-width: 1200px) {
