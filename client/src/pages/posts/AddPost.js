@@ -17,13 +17,28 @@ function AddPost() {
   const [content, setContent] = useState('');
   const [authorId, setAuthorId] = useState('');
   const [file, setFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState('');
+
+
+
+  //Function triger when file field change
+  const imageChange = (e) => {
+    setFile(e.target.files[0]);
+
+    //Preview Cover Image
+    if (e.target.files && e.target.files.length > 0) {
+      const urlPreviewImage = URL.createObjectURL(e.target.files[0]);
+      setPreviewUrl(urlPreviewImage);
+
+    }
+  }
 
 
   const { addPost, isLoading, error } = useAddPost();
- 
+
   //RichText Editor
   const editor = useRef(null);
-  
+
 
 
 
@@ -49,8 +64,9 @@ function AddPost() {
 
         await axios.post(uploadURI, data, {
           headers: {
-          Authorization : `Bearer ${user.data.token}`
-        }});
+            Authorization: `Bearer ${user.data.token}`
+          }
+        });
 
       } catch (error) {
         console.log(error.message);
@@ -65,7 +81,7 @@ function AddPost() {
         <input
           type="text"
           placeholder='Titre...'
-          className={'title'} 
+          className={'title'}
           name='title'
           value={title}
           onChange={(e) => { setTitle(e.target.value) }}
@@ -79,7 +95,7 @@ function AddPost() {
               type="radio"
               name="category"
               value="Développement"
-              
+
               onChange={(e) => { setCategory(e.target.value) }}
             />
             <label htmlFor="huey">Développement</label>
@@ -112,34 +128,39 @@ function AddPost() {
             <label htmlFor="huey">Librairie</label>
           </div>
         </div>
-       
-          <textarea 
-          name="summary" 
-          id="summary" 
-          cols="30" 
-          rows="10" 
+
+        <textarea
+          name="summary"
+          id="summary"
+          cols="30"
+          rows="10"
           placeholder='Resumé'
           maxLength={1000}
           className="summary"
           value={summary}
           onChange={(e) => { setSummary(e.target.value) }}
-          >
-          </textarea>
+        >
+        </textarea>
         <div className="cover">
           <h3>Couverture :</h3>
           <input
             className='coverFileInput'
             type="file"
             name='cover'
-            onChange={(e) => setFile(e.target.files[0])} />
+            onChange={imageChange} />
 
-          
+
         </div>
-        <JoditEditor 
-        className='contentArea'
-        ref={editor}
-        onChange={(content) => setContent(content)}
-        placeholder='Écrit ici'
+        <img 
+        src={previewUrl} 
+        alt="Preview cover" 
+        className='previewImage'
+        />
+        <JoditEditor
+          className='contentArea'
+          ref={editor}
+          onChange={(content) => setContent(content)}
+          placeholder='Écrit ici'
         />
         {/* <ReactQuill
           className='contentArea'
@@ -248,7 +269,12 @@ const Form = styled.form`
     font-size: 1.2rem;
     outline: none;
     padding: 1rem;
-    font-family:  Roboto, sans-serif, ;
+    font-family:  roboto-regular, sans-serif, ;
+  }
+  .previewImage{
+    max-width: 100%;
+    width: 60%;
+    padding: 2rem;
   }
 `
 const Error = styled.p`

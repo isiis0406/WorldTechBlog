@@ -5,7 +5,6 @@ import PostListProfil from '../../components/Profil/PostListProfil';
 import styled from 'styled-components';
 import ProfilDetail from '../../components/Profil/ProfilDetail';
 // import { MdEdit } from 'react-icons/md';
-import { Link } from 'react-router-dom';
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useParams } from 'react-router-dom';
 import EditProfil from './EditProfil';
@@ -24,6 +23,7 @@ function Profil() {
 
   useEffect(() => {
     getUserInfos();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[user])
 
   //Fetch Profil Data

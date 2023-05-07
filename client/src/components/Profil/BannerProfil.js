@@ -2,7 +2,6 @@
 import React from 'react'
 import styled from 'styled-components';
 import { FaUserCircle } from 'react-icons/fa';
-import ProfilImage from '../../assets/Images/profilImg.jpeg';
 import BannerImage from '../../assets/Images/devSombre.png';
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 

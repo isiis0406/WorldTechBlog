@@ -21,6 +21,8 @@ function EditPost() {
   const [authorId, setAuthorId] = useState('');
   const [oldCoverName, setOldCoverName] = useState('');
   const [file, setFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState('');
+
 
   const { EditPost, isLoading, error } = useEditPost();
   const param = useParams();
@@ -31,6 +33,17 @@ function EditPost() {
 
   const { user } = useAuthContext();
 
+  //Function triger when file field change
+  const imageChange = (e) => {
+    setFile(e.target.files[0]);
+
+    //Preview Cover Image
+    if (e.target.files && e.target.files.length > 0) {
+      const urlPreviewImage = URL.createObjectURL(e.target.files[0]);
+      setPreviewUrl(urlPreviewImage);
+
+    }
+  }
 
   useEffect(() => {
     setAuthorId(user.data.UserID);
@@ -45,6 +58,7 @@ function EditPost() {
       setTitle(json.data.title);
       setCategory(json.data.category);
       setSummary(json.data.summary);
+      setPreviewUrl(`${process.env.REACT_APP_API_ROUTE}/${json.data.cover}`);
       setContent(json.data.content);
       setOldCoverName(json.data.cover);
     } catch (error) {
@@ -78,8 +92,8 @@ function EditPost() {
       }
     }
     await EditPost(param.id, newpost);
-     //Redirect to home Page
-     navigate(`/posts/${param.id}`);
+    //Redirect to home Page
+    navigate(`/posts/${param.id}`);
   }
   return (
     <Wrapper>
@@ -111,10 +125,15 @@ function EditPost() {
             className='coverFileInput'
             type="file"
             name='cover'
-            onChange={(e) => setFile(e.target.files[0])} />
+            onChange={imageChange} />
 
 
         </div>
+        <img
+          src={previewUrl}
+          alt="Preview cover"
+          className='previewImage'
+        />
 
         <JoditEditor
           className='contentArea'
@@ -229,7 +248,12 @@ const Form = styled.form`
     font-size: 1.2rem;
     outline: none;
     padding: 1rem;
-    font-family:  Roboto, sans-serif, ;
+    font-family:  roboto-regular, sans-serif, ;
+  }
+  .previewImage{
+    max-width: 100%;
+    width: 60%;
+    padding: 2rem;
   }
 `
 const Error = styled.p`

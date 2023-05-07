@@ -7,6 +7,7 @@ import Logo from './Logo';
 import { useNavigate } from 'react-router-dom';
 import { useLogout } from '../hooks/auth/useLogout';
 import { useAuthContext } from '../hooks/auth/useAuthContext';
+import DropDownProfil from './DropDownProfil';
 
 
 function Navbar() {
@@ -25,9 +26,16 @@ function Navbar() {
   const handleLogout = () => {
     // setCookies('acces_token', "");
     // window.localStorage.removeItem("userID");
+    setIsOpen(!isOpen);
     logout();
     navigate('/');
 
+  }
+  //Dropdown Profil feature
+  const [isOpen, setIsOpen] = useState(false);
+  const handleProfil = () => {
+    setIsOpen(!isOpen);
+    console.log(isOpen);
   }
   return (
     <Nav>
@@ -38,29 +46,40 @@ function Navbar() {
         <NavLink to="/" onClick={handleClick} >Acceuil</NavLink>
         <NavLink to="/add-post" onClick={handleClick}>Publier</NavLink>
 
-      {user &&
-        (
-          <div>
-            <Link  to="/" onClick={handleLogout}>Logout</Link>
-            <Link  to={`/users/${user.data.UserID}/profil`}>Profil</Link>
-          </div>
-        )
-      }
-      {!user &&
-        (
-          <div>
-            <NavLink to="/auth/login" onClick={handleClick} >Login</NavLink>
-            <NavLink to="/auth/register" onClick={handleClick} >Sign in</NavLink>
-          </div>
-        )
-      }
+        {user &&
+          (
+            <div>
+              <DropDownProfil className="dropdown" handleProfil = {handleProfil} />
+              {isOpen &&
+                <div className='profilManage'>
+                  <Link 
+                  to={`/users/${user.data.UserID}/profil`}
+                  onClick={() => {setIsOpen(!isOpen);}}
+                  >Profil</Link>
+                  <Link 
+                  to="/" 
+                  onClick={handleLogout}>Logout</Link>
+                </div>
+              }
+
+            </div>
+          )
+        }
+        {!user &&
+          (
+            <div>
+              <NavLink to="/auth/login" onClick={handleClick} >Login</NavLink>
+              <NavLink to="/auth/register" onClick={handleClick} >Sign in</NavLink>
+            </div>
+          )
+        }
       </div>
       <div
         className="nav-mobile-icons"
-        
-        >
-        {isMobile && <FaTimes onClick={() => setIsMobile(false)} /> }
-        {!isMobile &&  <FaBars onClick={() => setIsMobile(true)} />}
+
+      >
+        {isMobile && <FaTimes onClick={() => setIsMobile(false)} />}
+        {!isMobile && <FaBars onClick={() => setIsMobile(true)} />}
 
       </div>
 
@@ -79,6 +98,7 @@ const Nav = styled.div`
 
     .nav-list{
       display: flex;
+      align-items: center;
       @media screen and (max-width: 740px) {
           display: none;
         }
@@ -134,6 +154,25 @@ const Nav = styled.div`
       
 
 
+    }
+    .dropdown{
+      position: relative;
+    }
+    .profilManage{
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+      border-radius: 1rem;
+      position: absolute;
+      z-index: 3000;
+      padding: 1rem 1rem;
+      align-items: start;
+
+    }
+    .profilManage a {
+      font-size: 1rem;
+      color: #1D3557;
+      margin-bottom: 1rem;
     }
     
     
