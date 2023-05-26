@@ -19,9 +19,7 @@ function AddPost() {
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
 
-
-
-  //Function triger when file field change
+  //Function triggered when file field changes
   const imageChange = (e) => {
     setFile(e.target.files[0]);
 
@@ -29,21 +27,15 @@ function AddPost() {
     if (e.target.files && e.target.files.length > 0) {
       const urlPreviewImage = URL.createObjectURL(e.target.files[0]);
       setPreviewUrl(urlPreviewImage);
-
     }
   }
-
 
   const { addPost, isLoading, error } = useAddPost();
 
   //RichText Editor
   const editor = useRef(null);
 
-
-
-
   const { user } = useAuthContext();
-
 
   useEffect(() => {
     setAuthorId(user.data.UserID);
@@ -74,6 +66,7 @@ function AddPost() {
     }
     await addPost(newpost);
   }
+
   return (
     <Wrapper>
       <h2>Nouveau post</h2>
@@ -81,21 +74,19 @@ function AddPost() {
         <input
           type="text"
           placeholder='Titre...'
-          className={'title'}
+          className='title'
           name='title'
           value={title}
           onChange={(e) => { setTitle(e.target.value) }}
         />
 
-        <h3>Catégorie : </h3>
+        <h3>Catégorie :</h3>
         <div className='categories'>
           <div>
-
             <input
               type="radio"
               name="category"
               value="Développement"
-
               onChange={(e) => { setCategory(e.target.value) }}
             />
             <label htmlFor="huey">Développement</label>
@@ -125,7 +116,7 @@ function AddPost() {
               value="Librairie"
               onChange={(e) => { setCategory(e.target.value) }}
             />
-            <label htmlFor="huey">Librairie</label>
+            <label htmlFor="huey"> Librairie</label>
           </div>
         </div>
 
@@ -134,7 +125,7 @@ function AddPost() {
           id="summary"
           cols="30"
           rows="10"
-          placeholder='Resumé'
+          placeholder='Résumé'
           maxLength={1000}
           className="summary"
           value={summary}
@@ -147,20 +138,19 @@ function AddPost() {
             className='coverFileInput'
             type="file"
             name='cover'
-            onChange={imageChange} />
-
-
+            onChange={imageChange}
+          />
         </div>
-        <img 
-        src={previewUrl} 
-        alt="Preview cover" 
-        className='previewImage'
+        <img
+          src={previewUrl}
+          alt="Preview cover"
+          className='previewImage'
         />
         <JoditEditor
           className='contentArea'
           ref={editor}
           onChange={(content) => setContent(content)}
-          placeholder='Écrit ici'
+          placeholder='Écris ici'
         />
         {/* <ReactQuill
           className='contentArea'
@@ -172,114 +162,132 @@ function AddPost() {
         {error && <Error className='error'>{error}</Error>}
         <div className="BtnContainer">
           <Button disabled={isLoading} type={'submit'} value='Publier' />
-
         </div>
       </Form>
     </Wrapper>
   )
 }
 
-export default AddPost
+export default AddPost;
+
 const Wrapper = styled.div`
-padding: 1rem;
-  h2{
+  padding: 1rem;
+
+  h2 {
     text-align: center;
     font-size: 3rem;
     padding: 2rem 1rem;
     font-weight: 300;
-    }
-@media (max-width: 936px){
-  h2{
-    font-size: 2.4rem;
   }
-  Form{
-    margin: 3rem;
-    .title{
-    font-size: 3rem;
-  }
-    h3{
-      font-size: 1.4rem;
+
+  @media (max-width: 936px) {
+    h2 {
+      font-size: 2.4rem;
     }
-    .categories{
-      font-size: 1rem;
+
+    Form {
+      margin: 3rem;
+
+      .title {
+        font-size: 3rem;
+      }
+
+      h3 {
+        font-size: 1.4rem;
+      }
+
+      .categories {
+        font-size: 1rem;
+      }
     }
   }
 
-}
-@media (max-width: 629px){
-  h2{
-    font-size: 2.4rem;
-  }
-  Form{
-    margin: 3rem;
-    .title{
-    font-size: 2rem;
-  }
-    h3{
-      font-size: 1.4rem;
+  @media (max-width: 629px) {
+    h2 {
+      font-size: 2.4rem;
     }
-    .categories{
-      font-size: 1rem;
-    }
-  }
 
-}
-`
+    Form {
+      margin: 3rem;
+
+      .title {
+        font-size: 2rem;
+      }
+
+      h3 {
+        font-size: 1.4rem;
+      }
+
+      .categories {
+        font-size: 1rem;
+      }
+    }
+  }
+`;
+
 const Form = styled.form`
   margin: 2rem 15rem;
   max-width: 100%;
 
-  .title{
+  .title {
     font-size: 4rem;
     border: none;
     border-bottom: 1px solid black;
     outline: none;
     margin: 2rem 0;
   }
-  h3{
+
+  h3 {
     font-size: 1.4rem;
     font-weight: 400;
     margin: 1rem;
   }
-  .categories{
+
+  .categories {
     display: flex;
     flex-direction: column;
     padding-left: 2rem;
     gap: 1rem;
   }
-  .categories label{
+
+  .categories label {
     padding-left: 0.6rem;
   }
 
-  .cover .coverFileInput{
+  .cover .coverFileInput {
     font-size: 1rem;
   }
-  .contentArea{
+
+  .contentArea {
     margin: 2rem 0;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
   }
-  .BtnContainer{
+
+  .BtnContainer {
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .summary{
-    width: 80%;
-    margin-top: 1rem;
-    font-size: 1.2rem;
-    outline: none;
-    padding: 1rem;
-    font-family:  roboto-regular, sans-serif, ;
-  }
-  .previewImage{
-    max-width: 100%;
-    width: 60%;
-    padding: 2rem;
-  }
-`
+
+.summary {
+  width: 80%;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  outline: none;
+  padding: 1rem;
+  font-family: roboto-regular, sans-serif;
+}
+
+.previewImage {
+  max-width: 100%;
+  width: 60%;
+  padding: 2rem;
+}
+`;
+
 const Error = styled.p`
 color: red;
 font-weight: 500;
 padding: 1rem;
 text-align: center;
-`
+`;

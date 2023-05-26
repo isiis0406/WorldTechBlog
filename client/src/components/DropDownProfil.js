@@ -14,13 +14,13 @@ function DropDownProfil({handleProfil}) {
         getUserInfos();
       // eslint-disable-next-line react-hooks/exhaustive-deps
       },[user])
-    
       //Fetch Profil Data
       const getUserInfos = async () => {
         if(user){
           const localUserInfos = JSON.parse(localStorage.getItem('user'));
           const localProfilInfos = localUserInfos.data.profilInfos
           setProfileInfos(localProfilInfos);
+
         }
     
       }
@@ -30,7 +30,7 @@ function DropDownProfil({handleProfil}) {
          <div onClick={handleProfil} className='profil'>
           {profilInfos.profilImage ?
             <img 
-            src={`${process.env.REACT_APP_API_ROUTE}/${profilInfos.profilImage}`}
+            src={`${process.env.REACT_APP_API_ROUTE}/profil/${profilInfos.profilImage}`}
             alt="Profil cover"
             ></img> :
             <FaUserCircle />

@@ -53,9 +53,7 @@ function Profil() {
       <Modal showModal={showModal}> 
       <EditProfil profilInfos={profilInfos} setShowModal={setShowModal} /> 
       </Modal>
-      <Modal showModal={showModal}>
-        {/* <EditAvatart/> */}
-      </Modal>
+
       <BannerProfil profilInfos={profilInfos} />
       <Wrapper>
         <div className="editProfil">

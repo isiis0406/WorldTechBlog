@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -6,112 +5,108 @@ import { Link } from 'react-router-dom';
 function PostCard({ post }) {
   return (
     <Post>
-      <div className="cover">
+      <Cover>
         <Link to={'/posts/' + post._id}>
-          <img src={`${process.env.REACT_APP_API_ROUTE}/` + post.cover} alt='Image de couverture du post' />
+          <Image src={`${process.env.REACT_APP_API_ROUTE}/` + post.cover} alt='Image de couverture du post' />
         </Link>
-      </div>
-      <div className="abstract">
-        <h3>{post.title}</h3>
-        <p className='content'>
-        {post.summary.substring(0,280) + "..."}
-        </p>
-      </div>
+      </Cover>
+      <Abstract>
+        <Title>{post.title}</Title>
+        <Content>{post.summary.substring(0, 200) + "..."}</Content>
+      </Abstract>
     </Post>
   )
 }
 
-export default PostCard
+export default PostCard;
 
 const Post = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
   padding: 2rem 10rem;
-  .cover{
-    width: 40%;
-  }
-  .abstract{
-    width: 60%;
-    
-  }
-  img{
-    max-width: 100%;
-  }
-  h3{
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 600;
-    padding-top: 2rem;
-  }
-  p {
-    padding: 2rem;
-    text-align: justify;
-    font-size: 1.2rem;
-    color: var(--main-text-color);
-    line-height: 2rem;
-  }
+
   @media screen and (max-width: 1200px) {
     padding: 4rem;
-    .cover{
-      width: 50%;
-    }
-    .abstract{
-      width: 50%;
+
+    h3 {
+      font-size: 1.6rem;
       padding: 1rem;
     }
-    img{
-      /* max-width: 140%; */
-    }
-    h3{
-      font-size: 2rem;
-      padding: 1rem;
-    }
-    p{
-      font-size: 1.4rem;
-      padding: 1rem;
-    }
-  }
-  @media screen and (max-width: 1060px) {
-    padding: 4rem;
-    .cover{
-      width: 50%;
-    }
-    .abstract{
-      width: 50%;
-      padding: 1rem;
-    }
-    img{
-      /* max-width: 140%; */
-    }
-    h3{
-      font-size: 1.8rem;
-      padding: 1rem;
-    }
-    p{
+
+    p {
       font-size: 1.2rem;
       padding: 1rem;
     }
   }
+
   @media screen and (max-width: 970px) {
-    flex-direction: column;
-    padding: 0rem;
-    .cover{
-      width: 50%;
+    padding: 2rem;
+
+    h3 {
+      font-size: 1.8rem;
+      padding: 1rem;
     }
-    .abstract{
-      width: 50%;
-    }
-    img{
-      /* max-width: 140%; */
-    }
-    h3{
-      font-size: 1rem;
-      padding: 0.6rem;
-    }
-    p{
-      font-size: 1rem;
+
+    p {
+      font-size: 1.4rem;
       padding: 1rem;
     }
   }
-`
+
+  @media screen and (max-width: 650px) {
+    padding: 1rem;
+
+    h3 {
+      font-size: 1.2rem;
+      padding: 0.5rem;
+      text-align: center;
+    }
+
+    p {
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+  }
+`;
+
+const Cover = styled.div`
+  width: 40%;
+
+  @media screen and (max-width: 970px) {
+    width: 100%;
+  }
+`;
+
+const Abstract = styled.div`
+  width: 60%;
+  padding: 1rem;
+
+  @media screen and (max-width: 970px) {
+    width: 100%;
+  }
+`;
+
+const Image = styled.img`
+  max-width: 100%;
+
+  @media screen and (max-width: 970px) {
+    /* max-width: 140%; */
+  }
+`;
+
+const Title = styled.h3`
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  padding-top: 2rem;
+  margin: 1rem;
+`;
+
+const Content = styled.p`
+  text-align: justify;
+  font-size: 1.2rem;
+  color: var(--main-text-color);
+  line-height: 2rem;
+`;

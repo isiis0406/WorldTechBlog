@@ -9,7 +9,7 @@ const SendResetPassEMail = async(email, subject, link) =>{
             port: Number(process.env.EMAIL_PORT),
             secure: Boolean(process.env.SECURE),
             auth: {
-                user: 'issabobobaldepro@gmail.com',
+                user: process.env.USER_EMAIL,
                 pass: process.env.PASS
             }
         })

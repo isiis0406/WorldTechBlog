@@ -164,6 +164,7 @@ export const forgotPassword = async (req, res) => {
         await SendResetPassEMail(user.email, "Réinitialisation du mot de passe de votre compte worldTech", url);
 
         //Success
+     
         return res.status(200).json({ message: 'Vous avez reçu un mail, cliquez sur le lien pour réinitialiser votre mot de passe.' })
 
     }
@@ -329,3 +330,4 @@ export const editProfil = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+

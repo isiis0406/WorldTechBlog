@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { FaTimes } from 'react-icons/fa';
@@ -52,11 +52,11 @@ function EditProfil({profilInfos, setShowModal}) {
       const data = new FormData();
       const filename = Date.now().toString() + file.name;
       data.append('name', filename);
-      data.append('file', file);
+      data.append('profilImages', file);
       newProfil.profilImage = filename;
 
       try {
-        const uploadURI = `${process.env.REACT_APP_API_ROUTE}/upload`;
+        const uploadURI = `${process.env.REACT_APP_API_ROUTE}/profil/avatar/upload`;
 
         await axios.post(uploadURI, data, {
           headers: {
@@ -132,7 +132,7 @@ function EditProfil({profilInfos, setShowModal}) {
           <input
             className='coverFileInput'
             type="file"
-            name='profilImage'
+            name='profilImages'
             onChange={(e) => setFile(e.target.files[0])} />
 
         
