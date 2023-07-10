@@ -160,7 +160,7 @@ export const forgotPassword = async (req, res) => {
 
         });
         //Send Verification email url
-        const url = `${process.env.BASE_URL}auth/users/${user._id}/reset-password/${token.token}`;
+        const url = `${process.env.BASE_URL}/auth/users/${user._id}/reset-password/${token.token}`;
         await SendResetPassEMail(user.email, "Réinitialisation du mot de passe de votre compte worldTech", url);
 
         //Success

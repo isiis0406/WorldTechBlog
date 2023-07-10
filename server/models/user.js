@@ -64,7 +64,7 @@ userSchema.statics.register = async function (email, password) {
     })
     const subject = "Activation de votre compte worldTech"
     const message = "Bienvenu chez worldTech. Merci d'avoir choisit de nous rejoindre.";
-    const url = `${process.env.BASE_URL}auth/users/${user._id}/verify/${token.token}`;
+    const url = `${process.env.BASE_URL}/auth/users/${user._id}/verify/${token.token}`;
 
     await sendEmail(user.email, subject, message, url);
 
